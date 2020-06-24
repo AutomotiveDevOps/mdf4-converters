@@ -5,21 +5,33 @@ set(EXTERNAL_PROJECT_NAME "Boost")
 
 if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
     set(BOOST_TOOLCHAIN gcc)
+    set(Boost_COMPILER ${BOOST_TOOLCHAIN} CACHE INTERNAL "Boost compiler")
     message("Building boost using GCC")
 elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
     set(BOOST_TOOLCHAIN clang)
+    set(Boost_COMPILER ${BOOST_TOOLCHAIN} CACHE INTERNAL "Boost compiler")
     message("Building boost using Clang")
 elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
     set(BOOST_TOOLCHAIN msvc)
+    set(Boost_COMPILER "-vc142" CACHE INTERNAL "Boost compiler")
     message("Building boost using MSVC")
 else()
     message("ERROR")
 endif()
 
-set(Boost_ROOT ${EXTERNAL_PROJECT_INSTALL_DIR} CACHE PATH "Boost root path")
-set(Boost_COMPILER ${BOOST_TOOLCHAIN} CACHE INTERNAL "Boost compiler")
-set(ENV{Boost_ROOT} ${Boost_ROOT})
+if(NOT DEFINED ENV{BOOST_ROOT})
+    set(BOOST_ROOT ${EXTERNAL_PROJECT_INSTALL_DIR} CACHE PATH "Boost root path")
+    set(ENV{BOOST_ROOT} ${BOOST_ROOT})
+else()
+    message("Getting Boost root from environment variable")
+    set(BOOST_ROOT $ENV{BOOST_ROOT})
+    set(Boost_NO_SYSTEM_PATHS ON)
+endif()
+
+message("Using ${BOOST_ROOT} as search path")
+
 set(ENV{Boost_COMPILER} ${Boost_COMPILER})
+set(Boost_DEBUG ON)
 
 set(Boost_COMPONENTS_TO_FIND
         date_time
