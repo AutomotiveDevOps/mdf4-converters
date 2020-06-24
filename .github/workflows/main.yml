@@ -18,7 +18,6 @@ jobs:
     env:
       CC: gcc-9
       CXX: g++-9
-      BOOST_ROOT: /usr/local/share/boost/1.72.0
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
