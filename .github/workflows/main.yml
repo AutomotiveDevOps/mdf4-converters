@@ -15,6 +15,9 @@ jobs:
   build:
     # The type of runner that the job will run on
     runs-on: ubuntu-16.04
+    env:
+      CC: gcc-9
+      CXX: g++-9
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -30,3 +33,7 @@ jobs:
     - name: Setup initial environment
       run:
         cmake -DCMAKE_BUILD_TYPE=Release $GITHUB_WORKSPACE/CMakeLists.txt
+    
+    - name: Get targets
+      run:
+        make help
