@@ -39,7 +39,7 @@ jobs:
     
     - name: Setup initial environment
       if: steps.cache-external.outputs.cache-hit != 'true'
-      run:
+      run: |
         cmake -DCMAKE_BUILD_TYPE=Release -DBOOST_ROOT=$BOOST_ROOT_1_72_0 $GITHUB_WORKSPACE/CMakeLists.txt
         make ExternalDependencies
     
