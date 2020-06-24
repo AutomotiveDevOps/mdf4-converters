@@ -5,11 +5,11 @@ set(EXTERNAL_PROJECT_NAME "Boost")
 
 if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
     set(BOOST_TOOLCHAIN gcc)
-    #set(Boost_COMPILER ${BOOST_TOOLCHAIN} CACHE INTERNAL "Boost compiler")
+    set(Boost_COMPILER "-${BOOST_TOOLCHAIN}" CACHE INTERNAL "Boost compiler")
     message("Building boost using GCC")
 elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
     set(BOOST_TOOLCHAIN clang)
-    set(Boost_COMPILER ${BOOST_TOOLCHAIN} CACHE INTERNAL "Boost compiler")
+    set(Boost_COMPILER "-${BOOST_TOOLCHAIN}" CACHE INTERNAL "Boost compiler")
     message("Building boost using Clang")
 elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
     set(BOOST_TOOLCHAIN msvc)
@@ -22,6 +22,7 @@ endif()
 message("Using ${BOOST_ROOT} as search path")
 
 set(ENV{Boost_COMPILER} ${Boost_COMPILER})
+set(Boost_VERBOSE ON)
 set(Boost_DEBUG ON)
 
 set(Boost_COMPONENTS_TO_FIND
