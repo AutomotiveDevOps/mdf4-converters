@@ -23,20 +23,17 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-#    - uses: actions/checkout@v2
+    - uses: actions/checkout@v2
       
     # Runs a set of commands using the runners shell
     - name: Create build directory
       run: |
         mkdir build
         cd build
-        echo $BOOST_ROOT_1_72_0
-        ls -l $BOOST_ROOT_1_72_0/
-        ls -l $BOOST_ROOT_1_72_0/lib/
 
-#    - name: Setup initial environment
-#      run:
-#        cmake -DCMAKE_BUILD_TYPE=Release $GITHUB_WORKSPACE/CMakeLists.txt
+    - name: Setup initial environment
+      run:
+        cmake -DCMAKE_BUILD_TYPE=Release -DBOOST_ROOT=$BOOST_ROOT_1_72_0 $GITHUB_WORKSPACE/CMakeLists.txt
 #    
 #    - name: Get targets
 #      run:
