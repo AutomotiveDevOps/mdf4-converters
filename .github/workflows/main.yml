@@ -29,13 +29,18 @@ jobs:
       run: |
         mkdir build
         cd build
-
+    
+    - name: Cache external dependencies
+      id: cache-external
+      uses: actions/cache@v2
+      with:
+        path: External/Root
+        key: ${{ runner.os }}-build-external
+    
     - name: Setup initial environment
+      if: steps.cache-external.outputs.cache-hit != 'true'
       run:
         cmake -DCMAKE_BUILD_TYPE=Release -DBOOST_ROOT=$BOOST_ROOT_1_72_0 $GITHUB_WORKSPACE/CMakeLists.txt
-    
-    - name: Build base targets
-      run:
         make ExternalDependencies
     
     - name: Setup final environment
