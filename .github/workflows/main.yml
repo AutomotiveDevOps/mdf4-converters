@@ -26,4 +26,7 @@ jobs:
       run: |
         mkdir build
         cd build
-        cmake $GITHUB_WORKSPACE/CMakeLists
+
+    - name: Setup initial environment
+      run:
+        cmake -DCMAKE_BUILD_TYPE=Release $GITHUB_WORKSPACE/CMakeLists.txt
