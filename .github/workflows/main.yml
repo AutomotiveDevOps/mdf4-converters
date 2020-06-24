@@ -50,3 +50,8 @@ jobs:
     - name: Build release targets
       run:
         make ToolsRelease
+    
+    - uses: actions/upload-artifact@v2
+      with:
+        name: release
+        path: Release/
