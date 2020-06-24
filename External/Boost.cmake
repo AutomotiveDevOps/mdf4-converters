@@ -22,8 +22,8 @@ endif()
 
 message("Using ${BOOST_ROOT} as search path")
 
-set(Boost_ARCHITECTURE "-x64")
-set(Boost_LIB_PREFIX "lib")
+set(Boost_ARCHITECTURE "-x64" CACHE INTERNAL "Boost arch")
+set(Boost_LIB_PREFIX "lib" CACHE INTERNAL "Boost prefix")
 set(ENV{Boost_COMPILER} ${Boost_COMPILER})
 set(Boost_VERBOSE ON)
 set(Boost_DEBUG ON)
