@@ -5,7 +5,7 @@ set(EXTERNAL_PROJECT_NAME "Boost")
 
 if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
     set(BOOST_TOOLCHAIN gcc)
-    set(Boost_COMPILER ${BOOST_TOOLCHAIN} CACHE INTERNAL "Boost compiler")
+    #set(Boost_COMPILER ${BOOST_TOOLCHAIN} CACHE INTERNAL "Boost compiler")
     message("Building boost using GCC")
 elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
     set(BOOST_TOOLCHAIN clang)
