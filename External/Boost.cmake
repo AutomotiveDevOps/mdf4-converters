@@ -19,15 +19,6 @@ else()
     message("ERROR")
 endif()
 
-if(NOT DEFINED ENV{BOOST_ROOT})
-    set(BOOST_ROOT ${EXTERNAL_PROJECT_INSTALL_DIR} CACHE PATH "Boost root path")
-    set(ENV{BOOST_ROOT} ${BOOST_ROOT})
-else()
-    message("Getting Boost root from environment variable")
-    set(BOOST_ROOT $ENV{BOOST_ROOT})
-    set(Boost_NO_SYSTEM_PATHS ON)
-endif()
-
 message("Using ${BOOST_ROOT} as search path")
 
 set(ENV{Boost_COMPILER} ${Boost_COMPILER})
