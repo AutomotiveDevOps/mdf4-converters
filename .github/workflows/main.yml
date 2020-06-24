@@ -30,6 +30,11 @@ jobs:
       run: |
         mkdir build
         cd build
+
+    - name: boost
+      run: |
+        echo $BOOST_ROOT_1_72_0
+        ls $BOOST_ROOT_1_72_0
         ls $BOOST_ROOT_1_72_0/lib
 
     - name: Setup initial environment
