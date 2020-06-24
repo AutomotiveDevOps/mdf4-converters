@@ -30,7 +30,7 @@ jobs:
       run: |
         mkdir build
         cd build
-        ls -l $BOOST_ROOT/
+#        ls -l $BOOST_ROOT/
         ls -l $BOOST_ROOT_1_72_0/
         ls -l $BOOST_ROOT_1_72_0/lib/
 
