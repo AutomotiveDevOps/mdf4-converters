@@ -1,6 +1,7 @@
 #ifndef MDFSIMPLECONVERTERS_MDFFILE_H
 #define MDFSIMPLECONVERTERS_MDFFILE_H
 
+#include <istream>
 #include <string>
 
 #include "CANRecord.h"
@@ -12,6 +13,8 @@ namespace mdf {
 
   struct MdfFile {
     static std::unique_ptr<MdfFile> Create(std::string fileName);
+    static std::unique_ptr<MdfFile> Create(std::shared_ptr<std::istream> stream);
+    static std::unique_ptr<MdfFile> Create(std::shared_ptr<std::streambuf> stream);
     virtual ~MdfFile();
     virtual bool loadFileInfo() = 0;
     virtual bool finalize() = 0;

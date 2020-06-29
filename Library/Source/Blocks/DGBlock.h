@@ -21,7 +21,7 @@ namespace mdf {
 
         void setRecordSize(uint8_t recordSize);
     protected:
-        bool load(uint8_t const* dataPtr) override;
+        bool load(std::shared_ptr<std::streambuf> stream) override;
         bool saveBlockData(uint8_t * dataPtr) override;
 
         uint8_t recordIDSize;

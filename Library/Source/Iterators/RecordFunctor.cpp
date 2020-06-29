@@ -8,7 +8,7 @@ namespace mdf {
     //
   }
 
-  uint8_t const *RecordFunctor::operator()(std::size_t index) const {
+  uint64_t RecordFunctor::operator()(std::size_t index) const {
     return (*storage)[index];
   }
 

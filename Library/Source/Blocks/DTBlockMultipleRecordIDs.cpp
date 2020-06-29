@@ -1,6 +1,10 @@
 #include "DTBlockMultipleRecordIDs.h"
 
-#include <boost/endian/buffers.hpp>
+#include <streambuf>
+
+#include <boost/endian.hpp>
+
+namespace be = boost::endian;
 
 namespace mdf {
 
@@ -12,8 +16,8 @@ namespace mdf {
 
     #pragma pack(push, 1)
     struct SDRecord {
-        boost::endian::little_uint32_buf_t recordSize;
-        boost::endian::little_uint8_buf_t recordData[];
+        be::little_uint32_buf_t recordSize;
+        be::little_uint8_buf_t recordData[];
     };
     #pragma pack(pop)
 
@@ -49,8 +53,8 @@ namespace mdf {
         return result;
     }
 
-    std::vector<uint8_t const*> DTBlockMultipleRecordIDs::getRecordIndicesAbsolute(uint64_t recordID) const {
-        std::vector<uint8_t const*> result;
+    std::vector<uint64_t> DTBlockMultipleRecordIDs::getRecordIndicesAbsolute(uint64_t recordID) const {
+        std::vector<uint64_t> result;
 
         auto iter = recordIndices.find(recordID);
         if(iter != std::end(recordIndices)) {
@@ -91,43 +95,59 @@ namespace mdf {
 
         // Create a index entry for each.
         for (auto &entry: recordSizeMap) {
-            recordIndices.insert(std::make_pair(entry.first, std::vector<uint8_t const*>()));
+            recordIndices.insert(std::make_pair(entry.first, std::vector<uint64_t>()));
             recordSizes.insert(std::make_pair(entry.first, 0));
         }
 
         // Iterate over all the records, saving indices for quick access.
-        uint8_t const* currentPtr = dataPtr;
-        uint8_t const* const endPtr = dataPtr + header.blockSize - sizeof(header);
+        std::streampos const blockDataStart = getFileLocation();
+        std::streampos const blockDataEnd = getFileLocation() + header.blockSize - sizeof(header);
+        std::streampos currentLocation = blockDataStart;
 
-        while (currentPtr < endPtr) {
+        while (currentLocation < blockDataEnd) {
             // Read the record id.
+            stream->pubseekpos(currentLocation);
+            //be::little_uint64_at recordID = 0;
             uint64_t recordID = 0;
-            memcpy(&recordID, currentPtr, recordLength);
-            currentPtr += recordLength;
+
+            std::streamsize bytesRead = stream->sgetn(reinterpret_cast<char *>(&recordID), recordLength);
+
+            if(bytesRead != recordLength) {
+                throw std::runtime_error("Could not read record ID");
+            }
+
+            currentLocation += recordLength;
 
             // Store this in the index.
-            recordIndices.at(recordID).emplace_back(currentPtr);
+            recordIndices.at(recordID).emplace_back(currentLocation);
 
             // Determine how many bytes to jump forward.
             int64_t recordSize = recordSizeMap.at(recordID);
 
             if (recordSize < 0) {
                 // VLSD record, read the next 4 bytes instead as record size.
-                auto ptr = reinterpret_cast<uint32_t const*>(currentPtr);
-                recordSize = *ptr;
+                be::little_uint32_at vlsdSize;
 
-                currentPtr += 4;
+                bytesRead = stream->sgetn(reinterpret_cast<char *>(vlsdSize.data()), 4);
+                if(bytesRead != 4) {
+                    throw std::runtime_error("Could not read VLSD length");
+                }
+                recordSize = vlsdSize;
+
+                currentLocation += 4;
             }
 
             // Update record size and jump to next record.
             recordSizes.at(recordID) += recordSize;
 
-            currentPtr += recordSize;
+            currentLocation += recordSize;
         }
     }
 
     bool DTBlockMultipleRecordIDs::saveBlockData(uint8_t* dataPtr) {
         // TODO: Does not handle record IDs.
+        // TODO: Fix
+        /*
         for(auto const& recordInformation: recordIndices) {
             uint64_t recordSize = recordSizeMap.at(recordInformation.first);
 
@@ -149,7 +169,7 @@ namespace mdf {
                 }
             }
 
-        }
+        }*/
 
         return true;
     }
@@ -159,8 +179,8 @@ namespace mdf {
         this->recordLength = recordLength;
     }
 
-  uint8_t const *DTBlockMultipleRecordIDs::operator[](std::size_t index) {
-    return nullptr;
+  uint64_t DTBlockMultipleRecordIDs::operator[](std::size_t index) {
+    return 0;
   }
 
 }

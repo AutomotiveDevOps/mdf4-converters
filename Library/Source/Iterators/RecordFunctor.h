@@ -10,7 +10,7 @@ namespace mdf {
   struct RecordFunctor {
     explicit RecordFunctor(std::shared_ptr<IDataBlock> storage);
 
-    uint8_t const* operator()(std::size_t index) const;
+    uint64_t operator()(std::size_t index) const;
 
   protected:
     std::shared_ptr<IDataBlock> storage;

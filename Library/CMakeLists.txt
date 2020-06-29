@@ -41,7 +41,9 @@ include_directories(Include)
 set(SOURCE_HEADERS
     Source/BlockStorage.h
     Source/IBlockStorage.h
+    Source/CachingStreamBuffer.h
     Source/ExtractMetaData.h
+    Source/Logger.h
     Source/MdfFileImplementation.h
     Source/StructAdaptors.h
     Source/Utility.h
@@ -80,11 +82,13 @@ set(SOURCE_HEADERS
 # List of all core source files.
 set(SOURCE_FILES
     Source/BlockStorage.cpp
+    Source/CachingStreamBuffer.cpp
     Source/CANRecord.cpp
     Source/ExtractMetaData.cpp
     Source/FileInfo.cpp
     Source/Library.cpp
     Source/LINRecord.cpp
+    Source/Logger.cpp
     Source/MdfFile.cpp
     Source/MdfFileImplementation.cpp
     Source/Utility.cpp

@@ -1,5 +1,11 @@
 #include "DTBlock.h"
 
+#include <streambuf>
+
+#include <boost/endian.hpp>
+
+namespace be = boost::endian;
+
 namespace mdf {
 
     constexpr MdfHeader DTBlockHeader = {
@@ -10,12 +16,11 @@ namespace mdf {
 
     DTBlock::DTBlock() {
         header = DTBlockHeader;
-        dataPtr = nullptr;
     }
 
-    bool DTBlock::load(uint8_t const* dataPtr_) {
+    bool DTBlock::load(std::shared_ptr<std::streambuf> stream_) {
         bool result = false;
-        this->dataPtr = dataPtr_;
+        stream = stream_;
 
         result = true;
 
