@@ -137,6 +137,9 @@ set(LIBRARIES_FINAL
 # Create static library.
 add_library(${PROJECT_NAME}_static STATIC ${SOURCE_FINAL})
 add_library(${PROJECT_NAME}::static ALIAS ${PROJECT_NAME}_static)
+
+set_property(TARGET ${PROJECT_NAME}_static
+        PROPERTY POSITION_INDEPENDENT_CODE ON)
 target_link_libraries(${PROJECT_NAME}_static ${LIBRARIES_FINAL})
 
 target_include_directories(${PROJECT_NAME}_static INTERFACE

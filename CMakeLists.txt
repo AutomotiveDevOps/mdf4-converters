@@ -27,5 +27,6 @@ else ()
     add_subdirectory(GenericFiles)
     add_subdirectory(Library)
     add_subdirectory(Tools)
+    add_subdirectory(Python)
 endif ()
 
