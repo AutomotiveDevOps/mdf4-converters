@@ -8,9 +8,16 @@ set(VERSION_PATCH 0)
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/CMake")
 
 # Search for Python.
-find_package(Python3 COMPONENTS Development REQUIRED)
-find_package(Threads)
+if($ENV{CI})
+    set(python_ROOT $ENV{pythonLocation} CACHE INTERNAL "Python path")
+    message("Detected Github Actions CI environment, using ${Python_ROOT_DIR} for python location")
+elseif($ENV{python_ROOT})
+    set(python_ROOT $ENV{pythonLocation} CACHE INTERNAL "Python path")
+endif()
 
+find_package(PythonMulti COMPONENTS Interpreter Development REQUIRED)
+
+find_package(Threads)
 find_package(PyCXX REQUIRED)
 
 # List of all source files.
@@ -31,34 +38,32 @@ set(SOURCE_FILES
     Source/Module.h
     )
 
-if("${CMAKE_SIZEOF_VOID_P}" STREQUAL "4")
-    set(PY3LIB "C:/Programs/Python/Python38-i386/libs/python3.lib")
-else()
-    set(PY3LIB "C:/Programs/Python/Python38-x86_64/libs/python3.lib")
+if (MSVC_VERSION GREATER_EQUAL "1900")
+    add_compile_definitions(HAVE_SNPRINTF=1)
 endif()
 
 # Create python extension.
-set(LIBRARY_NAME mdfsimple)
+set(LIBRARY_NAME mdf_iter)
 add_library(${LIBRARY_NAME} SHARED ${SOURCE_FILES})
-link_directories(${CMAKE_CURRENT_SOURCE_DIR})
-include_directories(${Python_INCLUDE_DIRS})
 target_link_libraries(${LIBRARY_NAME}
     Threads::Threads
     PyCXX::PyCXX
     MDF_BusLogging_Library_static
-    Python3::Module
-    Python3::Python
-    #${PY3LIB}
-    )
-#set_target_properties(${LIBRARY_NAME} PROPERTIES SUFFIX ".pyd")
-message(Python3::Module)
-message("${PyCXX_INCLUDE_DIRS}")
-message("${PyCXX_SOURCES}")
-set( CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,--no-undefined" )
-set_target_properties(${LIBRARY_NAME} PROPERTIES PREFIX "")
-add_custom_command(TARGET ${LIBRARY_NAME} POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:${LIBRARY_NAME}> ${CMAKE_CURRENT_SOURCE_DIR}/Test
+    PythonMulti::Module
+    PythonMulti::Generic
     )
 
-#add_executable(mdfsimpledemo Source/main.cpp)
-#target_link_libraries(mdfsimpledemo mdfsimple)
+if (MSVC_VERSION GREATER_EQUAL "1900")
+    set_target_properties(${LIBRARY_NAME} PROPERTIES SUFFIX ".pyd")
+endif()
+set_target_properties(${LIBRARY_NAME} PROPERTIES PREFIX "")
+add_custom_command(TARGET ${LIBRARY_NAME} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:${LIBRARY_NAME}> ${CMAKE_CURRENT_SOURCE_DIR}/Distribution_Iterator/mdf_iter
+    )
+
+# Build wheel after module.
+add_custom_target(${LIBRARY_NAME}_wheel
+        COMMAND PythonMulti::Interpreter setup.py bdist_wheel
+        DEPENDS ${LIBRARY_NAME}
+        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/Distribution_Iterator
+        )

@@ -7,14 +7,31 @@
 #include <CANRecord.h>
 
 struct MdfCANRecordWrapper : public Py::PythonExtension<MdfCANRecordWrapper> {
-  MdfCANRecordWrapper(mdf::CANRecord const& data);
-  virtual ~MdfCANRecordWrapper();
-  static void init_type(void);
+    MdfCANRecordWrapper(mdf::CANRecord const &data);
 
-  Py::Object repr();
+    virtual ~MdfCANRecordWrapper();
+
+    static void init_type(void);
+
+    Py::Object repr() override;
+
+    virtual Py::Object getattro(const Py::String& name) override;
+
+    Py::Object pubattr;
 
 private:
-  mdf::CANRecord record;
+    Py::Dict dict;
+
+    Py::Float TimeStamp;
+    Py::Long BusChannel;
+    Py::Long ID;
+    Py::Boolean IDE;
+    Py::Long DLC;
+    Py::Long DataLength;
+    Py::Boolean Dir;
+    Py::Boolean EDL;
+    Py::Boolean BRS;
+    Py::Bytes DataBytes;
 };
 
 

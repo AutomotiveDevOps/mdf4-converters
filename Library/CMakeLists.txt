@@ -4,6 +4,8 @@ set(VERSION_MAJOR 1)
 set(VERSION_MINOR 0)
 set(VERSION_PATCH 3)
 
+#set(CMAKE_CXX_STANDARD 17)
+
 # Search for Boost.
 find_package(Boost REQUIRED COMPONENTS filesystem log)
 
@@ -46,6 +48,7 @@ set(SOURCE_HEADERS
     Source/Logger.h
     Source/MdfFileImplementation.h
     Source/StructAdaptors.h
+    Source/UnfinalizedFileInfo.h
     Source/Utility.h
 
     Source/Blocks/CCBlock.h
@@ -91,6 +94,7 @@ set(SOURCE_FILES
     Source/Logger.cpp
     Source/MdfFile.cpp
     Source/MdfFileImplementation.cpp
+    Source/UnfinalizedFileInfo.cpp
     Source/Utility.cpp
     Source/Version.cpp
 
@@ -140,7 +144,9 @@ add_library(${PROJECT_NAME}::static ALIAS ${PROJECT_NAME}_static)
 
 set_property(TARGET ${PROJECT_NAME}_static
         PROPERTY POSITION_INDEPENDENT_CODE ON)
-target_link_libraries(${PROJECT_NAME}_static ${LIBRARIES_FINAL})
+target_link_libraries(${PROJECT_NAME}_static
+    -static
+    ${LIBRARIES_FINAL})
 
 target_include_directories(${PROJECT_NAME}_static INTERFACE
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Include>

@@ -11,8 +11,8 @@ namespace mdf {
 
     protected:
         int_type underflow() override;
-        pos_type seekoff(off_type, std::ios_base::seekdir, std::ios_base::openmode = std::ios_base::in | std::ios_base::out) override;
-        pos_type seekpos(pos_type, std::ios_base::openmode = std::ios_base::in | std::ios_base::out) override;
+        pos_type seekoff(off_type, std::ios_base::seekdir, std::ios_base::openmode) override;
+        pos_type seekpos(pos_type, std::ios_base::openmode) override;
         std::streamsize xsgetn(char_type *s, std::streamsize n) override;
     private:
         std::shared_ptr<std::streambuf> parent;

@@ -16,7 +16,9 @@ namespace mdf {
 
     void index();
 
-    uint64_t operator[](std::size_t index) override;
+    long long findFirstMatching(std::vector<uint64_t> targetIDs);
+
+    std::size_t operator[](std::size_t index) override;
 
     [[nodiscard]] std::map<uint64_t, int64_t> getRecordCycleCounts() const;
 

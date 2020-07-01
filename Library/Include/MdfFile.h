@@ -1,6 +1,7 @@
 #ifndef MDFSIMPLECONVERTERS_MDFFILE_H
 #define MDFSIMPLECONVERTERS_MDFFILE_H
 
+#include <chrono>
 #include <istream>
 #include <string>
 
@@ -20,7 +21,8 @@ namespace mdf {
     virtual bool finalize() = 0;
     virtual bool sort() = 0;
     virtual bool save(std::string fileName) = 0;
-    [[nodiscard]] virtual FileInfo getFileInfo() const = 0;
+    virtual FileInfo getFileInfo() const = 0;
+    virtual std::chrono::nanoseconds getFirstMeasurement() = 0;
     virtual RecordIterator<CANRecord const> getCANIterator() = 0;
     virtual RecordIterator<LINRecord const> getLINIterator() = 0;
   };

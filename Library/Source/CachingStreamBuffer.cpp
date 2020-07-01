@@ -61,7 +61,6 @@ namespace mdf {
             auto pos = parent->pubseekoff(offset, std::ios_base::beg);
             if(pos != offset) {
                 pos = parent->pubseekoff(0, std::ios_base::beg);
-                throw std::runtime_error("NOPE");
             }
 
             bufferOffset = offset;
@@ -92,7 +91,7 @@ namespace mdf {
 
         auto dif = gptr() - eback();
         if(dif < 0) {
-            throw std::runtime_error("NOPE");
+            throw std::runtime_error("Buffer error");
         }
 
         result += dif;
@@ -107,18 +106,18 @@ namespace mdf {
 
         if(n > cacheSize) {
             // Cannot contain in a single read call, do a direct call.
-            seekoff(currentPosition(), std::ios_base::beg);
+            seekoff(currentPosition(), std::ios_base::beg, std::ios_base::in);
             bytesRead = parent->sgetn(s, n);
             setg(buffer, buffer, buffer);
         } else if (n > available) {
             // Reset cache.
-            auto pos = seekoff(currentPosition(), std::ios_base::beg);
+            auto pos = seekoff(currentPosition(), std::ios_base::beg, std::ios_base::in);
             underflow();
 
             std::copy_n(gptr(), n, s);
             setg(eback(), gptr() + n, egptr());
             if(egptr() - gptr() < 0) {
-                throw std::runtime_error("NOPE");
+                throw std::runtime_error("Buffer error");
             }
             bytesRead = n;
         }
@@ -126,7 +125,7 @@ namespace mdf {
             std::copy_n(gptr(), n, s);
             setg(eback(), gptr() + n, egptr());
             if(egptr() - gptr() < 0) {
-                throw std::runtime_error("NOPE");
+                throw std::runtime_error("Buffer error");
             }
             bytesRead = n;
         }

@@ -37,7 +37,7 @@ namespace mdf {
     }
 
     uint64_t SDBlockDiscontinuous::operator[](std::size_t index) {
-        auto ptr = reinterpret_cast<uint64_t>(index);
+        auto ptr = static_cast<uint64_t>(index);
         auto iter = dataRecordsMap.find(ptr);
 
         if (iter == dataRecordsMap.end()) {

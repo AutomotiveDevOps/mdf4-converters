@@ -10,16 +10,13 @@
 #define NDEBUG
 #endif
 
-#include "CXX/Objects.hxx"
 #include "CXX/Extensions.hxx"
+#include "CXX/Objects.hxx"
 
-struct Module : public Py::ExtensionModule<Module>{
-  Module();
-  virtual ~Module();
+struct Module : public Py::ExtensionModule<Module> {
+    Module();
 
-  Py::Object CreateMdfFile( const Py::Tuple &args, const Py::Dict &kwds );
-
+    ~Module() override;
 };
-
 
 #endif //MDFSUPER_MODULE_H

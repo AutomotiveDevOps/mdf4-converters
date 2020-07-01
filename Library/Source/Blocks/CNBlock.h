@@ -25,7 +25,7 @@ namespace mdf {
     ByteArray = 0x0Au
   };
 
-  enum struct CNSyncType : uint8_t {
+  enum CNSyncType : uint8_t {
     None = 0x00u,
     Time = 0x01u,
   };

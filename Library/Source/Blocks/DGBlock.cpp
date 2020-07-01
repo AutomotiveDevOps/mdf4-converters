@@ -119,7 +119,11 @@ namespace mdf {
         recordIDSize = recordSize;
     }
 
-    bool DGBlock::saveBlockData(uint8_t *dataPtr) {
+  uint8_t DGBlock::getRecordSize() const {
+      return recordIDSize;
+  }
+
+  bool DGBlock::saveBlockData(uint8_t *dataPtr) {
 
         auto ptr = reinterpret_cast<DGBlockData *>(dataPtr);
 

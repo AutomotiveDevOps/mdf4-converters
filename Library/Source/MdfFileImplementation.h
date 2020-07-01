@@ -36,6 +36,8 @@ namespace mdf {
 
         bool loadFileInfo() override;
 
+        std::chrono::nanoseconds getFirstMeasurement() override;
+
         bool save(std::string fileName) override;
 
         RecordIterator<CANRecord const> getCANIterator() override;

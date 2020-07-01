@@ -44,10 +44,10 @@ namespace mdf {
         std::shared_ptr<std::streambuf> stream;
         NextRawDataLocationFunc func;
 
-    /**
-     * Mapping between the fields in the RecordType and the DG block.
-     */
-    std::map<unsigned, unsigned, std::less<unsigned>, std::allocator<std::pair<const unsigned, unsigned>>> mapping;
+        /**
+         * Mapping between the fields in the RecordType and the DG block.
+         */
+        std::map<unsigned, unsigned, std::less<unsigned>, std::allocator<std::pair<const unsigned, unsigned>>> mapping;
 
         MappingInformation mappingInformation;
         RecordType record;

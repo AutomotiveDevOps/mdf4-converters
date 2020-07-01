@@ -6,18 +6,17 @@
 #define EXPORT_SYMBOL
 #endif
 
-extern "C" EXPORT_SYMBOL PyObject *PyInit_mdfsimple()
+extern "C" EXPORT_SYMBOL PyObject *PyInit_mdf_iter()
 {
 #if defined(PY_WIN32_DELAYLOAD_PYTHON_DLL)
   Py::InitialisePythonIndirectPy::Interface();
 #endif
 
-  static auto* simple = new Module;
-  return simple->module().ptr();
+  static auto* module = new Module;
+  return module->module().ptr();
 }
 
-// symbol required for the debug version
-extern "C" EXPORT_SYMBOL PyObject *PyInit_mdfsimple_d()
+extern "C" EXPORT_SYMBOL PyObject *PyInit_mdf_iter_d()
 {
-  return PyInit_mdfsimple();
+  return PyInit_mdf_iter();
 }

@@ -1,5 +1,8 @@
 #include "DTBlockMultipleRecordIDs.h"
 
+#include <algorithm>
+#include <iterator>
+#include <iostream>
 #include <streambuf>
 
 #include <boost/endian.hpp>
@@ -84,6 +87,47 @@ namespace mdf {
         auto iter = recordSizes.find(recordID);
         if(iter != std::end(recordSizes)) {
             result = iter->second;
+        }
+
+        return result;
+    }
+
+    long long DTBlockMultipleRecordIDs::findFirstMatching(std::vector<uint64_t> targetIDs) {
+        long long result = -1;
+
+        std::size_t currentLocation = stream->pubseekoff(rawFileLocation + 24, std::ios_base::beg);
+        std::size_t endLocation = currentLocation + header.blockSize - sizeof(header);
+
+        while (currentLocation < endLocation) {
+            stream->pubseekoff(currentLocation, std::ios_base::beg);
+
+            // Read the record id.
+            uint64_t recordID = 0;
+            stream->sgetn(reinterpret_cast<char*>(&recordID), recordLength);
+
+            // Stop iterating if this is a match.
+            if(std::find(targetIDs.begin(), targetIDs.end(), recordID) != targetIDs.end()) {
+                result = currentLocation;
+                break;
+            }
+
+            currentLocation += recordLength;
+
+            // Determine how many bytes to jump forward.
+            int64_t recordSize = recordSizeMap.at(recordID);
+
+            if (recordSize < 0) {
+                // VLSD record, read the next 4 bytes instead as record size.
+                uint32_t VLSDrecordSize = 0;
+                stream->sgetn(reinterpret_cast<char*>(&VLSDrecordSize), sizeof(VLSDrecordSize));
+                currentLocation += sizeof(VLSDrecordSize);
+                recordSize = VLSDrecordSize;
+            }
+
+            // Update record size and jump to next record.
+            recordSizes.at(recordID) += recordSize;
+
+            currentLocation += recordSize;
         }
 
         return result;

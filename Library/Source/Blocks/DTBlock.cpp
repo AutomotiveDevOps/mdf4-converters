@@ -21,6 +21,7 @@ namespace mdf {
     bool DTBlock::load(std::shared_ptr<std::streambuf> stream_) {
         bool result = false;
         stream = stream_;
+        rawFileLocation = stream->pubseekoff(-24, std::ios_base::cur);
 
         result = true;
 

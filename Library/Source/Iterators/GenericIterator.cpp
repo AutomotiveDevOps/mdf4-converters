@@ -7,8 +7,10 @@
 #include <boost/bind.hpp>
 #include <boost/predef.h>
 #include <boost/endian.hpp>
+#include <boost/predef.h>
 #include <boost/mpl/contains.hpp>
 #include <iostream>
+#include <bitset>
 
 #include <algorithm>
 #include <iterator>
@@ -218,7 +220,7 @@ namespace mdf {
         // Use special assign functions from https://www.meetingcpp.com/blog/items/Accessing-a-fusion-sequence-with-a-run-time-defined-index.html.
 
         // Clear and copy data to the bit set.
-        char buffer[bitData.capacity() / 8];
+        char buffer[128];
 
         stream->pubseekoff(dataLocation, std::ios_base::beg);
         stream->sgetn(buffer, bitData.capacity() / 8);

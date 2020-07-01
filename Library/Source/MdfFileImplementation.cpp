@@ -7,6 +7,7 @@
 #include "BlockStorage.h"
 #include "ExtractMetaData.h"
 #include "MdfFileImplementation.h"
+#include "UnfinalizedFileInfo.h"
 #include "Utility.h"
 #include "RecordIterator.h"
 
@@ -179,6 +180,21 @@ namespace mdf {
         return fileInfo;
     }
 
+    std::chrono::nanoseconds MdfFileImplementation::getFirstMeasurement() {
+        FinalizationFlags flags = idBlock->getFinalizationFlags();
+
+        if (flags & FinalizationFlags_UpdateLengthInLastDT) {
+            finalize_setLengthOfLastDTBlock();
+            flags &= (~FinalizationFlags_UpdateLengthInLastDT);
+        }
+
+        idBlock->setFinalizationFlags(flags);
+
+        UnfinalizedFileInfo info(getHDBlock(), stream);
+
+        return info.firstMeasurement();
+    }
+
     bool MdfFileImplementation::loadFileInfo() {
         bool result = false;
 
@@ -294,6 +310,7 @@ namespace mdf {
             // Load the HD block and all linked blocks.
             blockStorage->getBlockAt(64);
 
+            /*
             // Ensure the file is finalized and sorted.
             result = finalize();
             if (!result) {
@@ -308,7 +325,7 @@ namespace mdf {
             result = loadFileInfo();
             if (!result) {
                 break;
-            }
+            }*/
         } while(false);
 
         return result;
@@ -671,6 +688,17 @@ namespace mdf {
     }
 
     RecordIterator<CANRecord const> MdfFileImplementation::getCANIterator() {
+        // Ensure result is finalized and sorted.
+        auto flags = idBlock->getFinalizationFlags();
+
+        if(flags != FinalizationFlags_None) {
+            bool result = true;
+
+            result &= finalize();
+            result &= sort();
+            result &= loadFileInfo();
+        }
+
         // Find the CAN DG block.
         std::shared_ptr<DGBlock> dgBlock = findBUSBlock(SIBlockBusType::CAN);
 

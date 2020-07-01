@@ -24,6 +24,7 @@ namespace mdf {
         bool load(std::shared_ptr<std::streambuf> stream) override;
 
         std::shared_ptr<std::streambuf> stream;
+        uint64_t rawFileLocation;
     };
 
 }

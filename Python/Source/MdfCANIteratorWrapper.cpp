@@ -8,7 +8,7 @@ MdfCANIteratorWrapper::MdfCANIteratorWrapper(mdf::RecordIterator<mdf::CANRecord 
 MdfCANIteratorWrapper::~MdfCANIteratorWrapper() = default;
 
 void MdfCANIteratorWrapper::init_type() {
-  behaviors().name( "mdfsimple.CANIterator" );
+  behaviors().name( "mdf_iter.CANIterator" );
   behaviors().doc( "" );
   behaviors().supportIter();
 
