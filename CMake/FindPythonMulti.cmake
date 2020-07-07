@@ -1,44 +1,27 @@
 # See https://cmake.org/cmake/help/latest/module/FindPackageHandleStandardArgs.htm
 # See https://cmake.org/cmake/help/latest/manual/cmake-developer.7.html
 
-function(print_properties)
-    message ("CMAKE_PROPERTY_LIST = ${CMAKE_PROPERTY_LIST}")
-endfunction(print_properties)
-
-function(print_target_properties tgt)
-    if(NOT TARGET ${tgt})
-        message("There is no target named '${tgt}'")
-        return()
-    endif()
-
-    foreach (prop ${CMAKE_PROPERTY_LIST})
-        string(REPLACE "<CONFIG>" "${CMAKE_BUILD_TYPE}" prop ${prop})
-        # Fix https://stackoverflow.com/questions/32197663/how-can-i-remove-the-the-location-property-may-not-be-read-from-target-error-i
-        if(prop STREQUAL "LOCATION" OR prop MATCHES "^LOCATION_" OR prop MATCHES "_LOCATION$")
-            continue()
-        endif()
-        # message ("Checking ${prop}")
-        get_property(propval TARGET ${tgt} PROPERTY ${prop} SET)
-        if (propval)
-            get_target_property(propval ${tgt} ${prop})
-            message ("${tgt} ${prop} = ${propval}")
-        endif()
-    endforeach(prop)
-endfunction(print_target_properties)
+# Since the default FindPython seems to always select the highest available, and misses a target for the major-only
+# library, this custom file is used instead.
 
 if (NOT python_ROOT)
     set(python_ROOT "$ENV{python_ROOT}")
 endif ()
 
 if (NOT python_ROOT)
-    find_path(_python_ROOT NAMES include/fmt/core.h)
+    find_path(_python_ROOT NAMES include/Python.h)
 else ()
     set(_python_ROOT ${python_ROOT})
 endif ()
 
 find_path(PythonMulti_INCLUDE_DIR
-    NAMES python.h
-    HINTS ${_python_ROOT}/include
+    NAMES Python.h
+    HINTS
+    ${_python_ROOT}/include
+    ${_python_ROOT}/include/python3.7
+    ${_python_ROOT}/include/python3.7m
+    ${_python_ROOT}/include/python3.8
+    ${_python_ROOT}/include/python3.8m
     )
 
 if (NOT ${PythonMulti_INCLUDE_DIR} STREQUAL "python_INCLUDE_DIR-NOTFOUND")
@@ -77,25 +60,30 @@ if (NOT ${PythonMulti_INCLUDE_DIR} STREQUAL "python_INCLUDE_DIR-NOTFOUND")
     find_library(PythonMulti_LIBRARY
         NAMES
         "python${PYTHON_VERSION_MAJOR}${PYTHON_VERSION_MINOR}"
-        python38
-        python37
-        python36
-        python35
-        python34
+        "python${PYTHON_VERSION_MAJOR}.${PYTHON_VERSION_MINOR}"
+        "python${PYTHON_VERSION_MAJOR}.${PYTHON_VERSION_MINOR}m"
+        "libpython${PYTHON_VERSION_MAJOR}${PYTHON_VERSION_MINOR}"
+        "libpython${PYTHON_VERSION_MAJOR}.${PYTHON_VERSION_MINOR}"
+        "libpython${PYTHON_VERSION_MAJOR}.${PYTHON_VERSION_MINOR}m"
         HINTS
+        ${_python_ROOT}/lib
         ${_python_ROOT}/libs
         )
     find_library(PythonMulti_generic_LIBRARY
         NAMES
         python3
+        libpython3
         HINTS
+        ${_python_ROOT}/lib
         ${_python_ROOT}/libs
         )
     find_program(PythonMulti_INTERPRETER
         NAMES
         python
+        python3
         HINTS
         ${_python_ROOT}
+        ${_python_ROOT}/bin
         )
 
     include(FindPackageHandleStandardArgs)

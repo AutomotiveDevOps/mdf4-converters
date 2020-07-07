@@ -8,11 +8,8 @@ set(VERSION_PATCH 0)
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/CMake")
 
 # Search for Python.
-if($ENV{CI})
-    set(python_ROOT $ENV{pythonLocation} CACHE INTERNAL "Python path")
-    message("Detected Github Actions CI environment, using ${Python_ROOT_DIR} for python location")
-elseif($ENV{python_ROOT})
-    set(python_ROOT $ENV{pythonLocation} CACHE INTERNAL "Python path")
+if($ENV{python_ROOT})
+    set(python_ROOT $ENV{python_ROOT} CACHE INTERNAL "Python path")
 endif()
 
 find_package(PythonMulti COMPONENTS Interpreter Development REQUIRED)

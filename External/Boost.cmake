@@ -20,11 +20,7 @@ else()
     message("ERROR")
 endif()
 
-if(DEFINED ENV{CI})
-    set(Boost_ROOT $ENV{BOOST_ROOT_1_72_0} CACHE PATH "Boost root path")
-    set(BOOST_INCLUDEDIR "$ENV{BOOST_ROOT_1_72_0}/boost/include")
-    set(BOOST_LIBRARYDIR "$ENV{BOOST_ROOT_1_72_0}/lib")
-elseif(DEFINED ENV{BOOST_ROOT})
+if(DEFINED ENV{BOOST_ROOT})
     set(Boost_ROOT ${EXTERNAL_PROJECT_INSTALL_DIR} CACHE PATH "Boost root path")
 endif()
 
@@ -80,6 +76,7 @@ if(NOT Boost_FOUND)
     else()
         set(BOOST_CXXFLAGS "-fPIC")
         set(BOOST_CFLAGS "-fPIC")
+        message("Building Boost with PIC flag set")
     endif()
 
     set(BUILD_COMMAND_ARGS
