@@ -3,7 +3,7 @@ A set of common options are included, which all sub-tools inherit.
 * `-h` or `--help`. Display help message
 * `-v` or `--version`. Display version information
 * `--non-interactive`. Flag controlling the display of progress during the lifetime of the application. Default value is `false`. Set to `true` when using the program in scripts, to avoid a log line for each progress update
-* `-i` or `--input-files`. Specify a list of files to convert. All unknown arguments will be interpreted as an input file, allowing for the use of the program without specifying any options. If the patn to a folder is passed, the folder will be traversed recursively, looking for supported file extensions (".MF4", ".MFE", ".MFC" and ".MFM")
+* `-i` or `--input-files`. Specify a list of files to convert. All unknown arguments will be interpreted as an input file, allowing for the use of the program without specifying any options. If the path to a folder is passed, the folder will be traversed recursively, looking for supported file extensions (".MF4", ".MFE", ".MFC" and ".MFM")
 * `-O` or `--output-directory`. Specify a directory to place the output files. If not specified, the same directory as the corresponding input file will be used
 * `-p` or `--password-file`. Path to password json file to use for decryption. If not specified, the same directory as the executable will be used, looking for `passwords.json`. See further down for the format of the password file
 * `-t` or `--timezone`. Determine which format to output the log messages in when converting. The possible values are:
