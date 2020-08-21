@@ -4,7 +4,7 @@ set(VERSION_MAJOR 1)
 set(VERSION_MINOR 0)
 set(VERSION_PATCH 3)
 
-#set(CMAKE_CXX_STANDARD 17)
+# set(CMAKE_CXX_STANDARD 17)
 
 # Search for Boost.
 find_package(Boost REQUIRED COMPONENTS filesystem log)
@@ -16,11 +16,8 @@ find_package(fmt REQUIRED)
 find_package(tinyxml2 REQUIRED)
 
 # Embed information in the source code.
-configure_file(
-    Source/ProjectInformation.h.in
-    ${CMAKE_CURRENT_BINARY_DIR}/Source/ProjectInformation.h
-    @ONLY
-)
+configure_file(Source/ProjectInformation.h.in
+               ${CMAKE_CURRENT_BINARY_DIR}/Source/ProjectInformation.h @ONLY)
 include_directories(${CMAKE_CURRENT_BINARY_DIR}/Source)
 
 # List of all public header files.
@@ -33,9 +30,7 @@ set(INCLUDE_FILES
     Include/MdfFile.h
     Include/RecordIterator.h
     Include/Version.h
-
-    Include/spimpl.h
-    )
+    Include/spimpl.h)
 
 include_directories(Include)
 
@@ -50,7 +45,6 @@ set(SOURCE_HEADERS
     Source/StructAdaptors.h
     Source/UnfinalizedFileInfo.h
     Source/Utility.h
-
     Source/Blocks/CCBlock.h
     Source/Blocks/CGBlock.h
     Source/Blocks/CNBlock.h
@@ -73,14 +67,11 @@ set(SOURCE_HEADERS
     Source/Blocks/SDBlockDiscontinuous.h
     Source/Blocks/SIBlock.h
     Source/Blocks/TXBlock.h
-
     Source/Iterators/Assign.h
     Source/Iterators/GenericIterator.h
     Source/Iterators/MappingInformation.h
     Source/Iterators/RecordFunctor.h
-
-    Source/mio.h
-    )
+    Source/mio.h)
 
 # List of all core source files.
 set(SOURCE_FILES
@@ -97,7 +88,6 @@ set(SOURCE_FILES
     Source/UnfinalizedFileInfo.cpp
     Source/Utility.cpp
     Source/Version.cpp
-
     Source/Blocks/CCBlock.cpp
     Source/Blocks/CGBlock.cpp
     Source/Blocks/CNBlock.cpp
@@ -117,51 +107,35 @@ set(SOURCE_FILES
     Source/Blocks/SDBlockDiscontinuous.cpp
     Source/Blocks/SIBlock.cpp
     Source/Blocks/TXBlock.cpp
-
     Source/Iterators/GenericIterator.cpp
     Source/Iterators/RecordIterator.cpp
-    Source/Iterators/RecordFunctor.cpp
-    )
+    Source/Iterators/RecordFunctor.cpp)
 
-# Create an amalgamated list for sources and target libraries depending on the options.
-set(SOURCE_FINAL
-    ${SOURCE_FILES}
-    ${SOURCE_HEADER_FILES}
-    ${INCLUDE_FILES}
-    )
+# Create an amalgamated list for sources and target libraries depending on the
+# options.
+set(SOURCE_FINAL ${SOURCE_FILES} ${SOURCE_HEADER_FILES} ${INCLUDE_FILES})
 
-set(LIBRARIES_FINAL
-    Boost::headers
-    Boost::filesystem
-    Boost::log
-    fmt::fmt
-    tinyxml2::tinyxml2
-    )
+set(LIBRARIES_FINAL Boost::headers Boost::filesystem Boost::log fmt::fmt
+                    tinyxml2::tinyxml2)
 
 # Create static library.
 add_library(${PROJECT_NAME}_static STATIC ${SOURCE_FINAL})
 add_library(${PROJECT_NAME}::static ALIAS ${PROJECT_NAME}_static)
 
-set_property(TARGET ${PROJECT_NAME}_static
-        PROPERTY POSITION_INDEPENDENT_CODE ON)
-target_link_libraries(${PROJECT_NAME}_static
-    -static
-    ${LIBRARIES_FINAL})
+set_property(TARGET ${PROJECT_NAME}_static PROPERTY POSITION_INDEPENDENT_CODE
+                                                    ON)
+target_link_libraries(${PROJECT_NAME}_static -static ${LIBRARIES_FINAL})
 
-target_include_directories(${PROJECT_NAME}_static INTERFACE
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Include>
-    )
+target_include_directories(
+  ${PROJECT_NAME}_static
+  INTERFACE $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Include>)
 
 # Create shared library.
 add_library(${PROJECT_NAME}_shared SHARED ${SOURCE_FINAL})
 add_library(${PROJECT_NAME}::shared ALIAS ${PROJECT_NAME}_shared)
-target_link_libraries(${PROJECT_NAME}_shared
-    -static-libstdc++
-    -static-libgcc
-    -static
-    ${LIBRARIES_FINAL}
-    )
+target_link_libraries(${PROJECT_NAME}_shared -static-libstdc++ -static-libgcc
+                      -static ${LIBRARIES_FINAL})
 
-target_include_directories(${PROJECT_NAME}_shared INTERFACE
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Include>
-    )
+target_include_directories(
+  ${PROJECT_NAME}_shared
+  INTERFACE $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Include>)

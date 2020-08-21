@@ -14,9 +14,9 @@
 #include "CXX/Objects.hxx"
 
 struct Module : public Py::ExtensionModule<Module> {
-    Module();
+  Module();
 
-    ~Module() override;
+  ~Module() override;
 };
 
-#endif //MDFSUPER_MODULE_H
+#endif // MDFSUPER_MODULE_H

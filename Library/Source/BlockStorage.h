@@ -2,8 +2,8 @@
 #define MDFSIMPLECONVERTERS_BLOCKSTORAGE_H
 
 #include <map>
-#include <unordered_map>
 #include <set>
+#include <unordered_map>
 
 #include <boost/bimap.hpp>
 
@@ -11,27 +11,30 @@
 
 namespace mdf {
 
-    // Sort the order of the set, such that it follows:
-    // HD -> TX ->
-    // Favor original file position if tied.
-    struct MdfBlockSortingOrder {
-        bool operator()(std::shared_ptr<MdfBlock> const& lhs, std::shared_ptr<MdfBlock> const& rhs) const;
-    };
+// Sort the order of the set, such that it follows:
+// HD -> TX ->
+// Favor original file position if tied.
+struct MdfBlockSortingOrder {
+  bool operator()(std::shared_ptr<MdfBlock> const &lhs,
+                  std::shared_ptr<MdfBlock> const &rhs) const;
+};
 
-    struct BlockStorage : IBlockStorage {
-        explicit BlockStorage(std::shared_ptr<std::streambuf> stream);
+struct BlockStorage : IBlockStorage {
+  explicit BlockStorage(std::shared_ptr<std::streambuf> stream);
 
-        [[nodiscard]] boost::bimap<uint64_t, std::shared_ptr<MdfBlock>> const& getBlockMap() const;
-        std::map<uint64_t, std::shared_ptr<MdfBlock>> getPackedBlockMap();
-        std::shared_ptr<MdfBlock> getBlockAt(uint64_t address) override;
-    private:
-        std::shared_ptr<std::streambuf> stream;
-        boost::bimap<uint64_t, std::shared_ptr<MdfBlock>> blockMap;
+  [[nodiscard]] boost::bimap<uint64_t, std::shared_ptr<MdfBlock>> const &
+  getBlockMap() const;
+  std::map<uint64_t, std::shared_ptr<MdfBlock>> getPackedBlockMap();
+  std::shared_ptr<MdfBlock> getBlockAt(uint64_t address) override;
 
-        std::set<std::shared_ptr<MdfBlock>, MdfBlockSortingOrder> getLinkedBlocks(std::shared_ptr<MdfBlock> startBlock);
-    };
+private:
+  std::shared_ptr<std::streambuf> stream;
+  boost::bimap<uint64_t, std::shared_ptr<MdfBlock>> blockMap;
 
-}
+  std::set<std::shared_ptr<MdfBlock>, MdfBlockSortingOrder>
+  getLinkedBlocks(std::shared_ptr<MdfBlock> startBlock);
+};
 
+} // namespace mdf
 
-#endif //MDFSIMPLECONVERTERS_BLOCKSTORAGE_H
+#endif // MDFSIMPLECONVERTERS_BLOCKSTORAGE_H

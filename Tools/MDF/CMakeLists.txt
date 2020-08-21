@@ -1,6 +1,6 @@
 project(mdf2finalized)
 
-#set(CMAKE_CXX_STANDARD 17)
+# set(CMAKE_CXX_STANDARD 17)
 
 # Set project information.
 set(PROGRAM_NAME ${PROJECT_NAME})
@@ -11,23 +11,15 @@ set(VERSION_MINOR 0)
 set(VERSION_PATCH 6)
 
 # Embed information in the source code.
-configure_file(
-    Source/ProjectInformation.h.in
-    ${CMAKE_CURRENT_BINARY_DIR}/Source/ProjectInformation.h
-    @ONLY)
+configure_file(Source/ProjectInformation.h.in
+               ${CMAKE_CURRENT_BINARY_DIR}/Source/ProjectInformation.h @ONLY)
 include_directories(${CMAKE_CURRENT_BINARY_DIR}/Source)
 
-set(SOURCE_FILES
-    Source/MDFTool.cpp
-    Source/MDFTool.h
-    Source/main.cpp
-    )
+set(SOURCE_FILES Source/MDFTool.cpp Source/MDFTool.h Source/main.cpp)
 
 include_directories(Include)
 add_executable(${PROGRAM_NAME} ${SOURCE_FILES})
-target_link_libraries(${PROGRAM_NAME}
-    ${RUNTIME_LIBRARIES}
-    MDFSimpleConverters_Shared
-    )
+target_link_libraries(${PROGRAM_NAME} ${RUNTIME_LIBRARIES}
+                      MDFSimpleConverters_Shared)
 
 pack_executable(${PROGRAM_NAME})

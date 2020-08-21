@@ -8,24 +8,19 @@ namespace be = boost::endian;
 
 namespace mdf {
 
-    constexpr MdfHeader DTBlockHeader = {
-        .blockType = MdfBlockType_DT,
-        .blockSize = 24,
-        .linkCount = 0
-    };
+constexpr MdfHeader DTBlockHeader = {
+    .blockType = MdfBlockType_DT, .blockSize = 24, .linkCount = 0};
 
-    DTBlock::DTBlock() {
-        header = DTBlockHeader;
-    }
+DTBlock::DTBlock() { header = DTBlockHeader; }
 
-    bool DTBlock::load(std::shared_ptr<std::streambuf> stream_) {
-        bool result = false;
-        stream = stream_;
-        rawFileLocation = stream->pubseekoff(-24, std::ios_base::cur);
+bool DTBlock::load(std::shared_ptr<std::streambuf> stream_) {
+  bool result = false;
+  stream = stream_;
+  rawFileLocation = stream->pubseekoff(-24, std::ios_base::cur);
 
-        result = true;
+  result = true;
 
-        return result;
-    }
-
+  return result;
 }
+
+} // namespace mdf

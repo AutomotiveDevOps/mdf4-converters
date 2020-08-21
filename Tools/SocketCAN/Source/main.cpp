@@ -3,7 +3,7 @@
 
 using namespace mdf::tools::socketcan;
 
-int main(int argc, char* argv[]) {
-    std::unique_ptr<SocketCAN_Exporter> exporter(new SocketCAN_Exporter());
-    return programEntry(argc, argv, std::move(exporter));
+int main(int argc, char *argv[]) {
+  std::unique_ptr<SocketCAN_Exporter> exporter(new SocketCAN_Exporter());
+  return programEntry(argc, argv, std::move(exporter));
 }

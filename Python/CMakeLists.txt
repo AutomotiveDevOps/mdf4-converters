@@ -9,10 +9,15 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/CMake")
 
 # Search for Python.
 if($ENV{python_ROOT})
-    set(python_ROOT $ENV{python_ROOT} CACHE INTERNAL "Python path")
+  set(python_ROOT
+      $ENV{python_ROOT}
+      CACHE INTERNAL "Python path")
 endif()
 
-find_package(PythonMulti COMPONENTS Interpreter Development REQUIRED)
+find_package(
+  PythonMulti
+  COMPONENTS Interpreter Development
+  REQUIRED)
 
 find_package(Threads)
 find_package(PyCXX REQUIRED)
@@ -30,37 +35,33 @@ set(SOURCE_FILES
     Source/MdfCANIteratorWrapper.h
     Source/PythonLogger.cpp
     Source/PythonLogger.h
-
     Source/Module.cpp
-    Source/Module.h
-    )
+    Source/Module.h)
 
-if (MSVC_VERSION GREATER_EQUAL "1900")
-    add_compile_definitions(HAVE_SNPRINTF=1)
+if(MSVC_VERSION GREATER_EQUAL "1900")
+  add_compile_definitions(HAVE_SNPRINTF=1)
 endif()
 
 # Create python extension.
 set(LIBRARY_NAME mdf_iter)
 add_library(${LIBRARY_NAME} SHARED ${SOURCE_FILES})
-target_link_libraries(${LIBRARY_NAME}
-    Threads::Threads
-    PyCXX::PyCXX
-    MDF_BusLogging_Library_static
-    PythonMulti::Module
-    PythonMulti::Generic
-    )
+target_link_libraries(
+  ${LIBRARY_NAME} Threads::Threads PyCXX::PyCXX MDF_BusLogging_Library_static
+  PythonMulti::Module PythonMulti::Generic)
 
-if (MSVC_VERSION GREATER_EQUAL "1900")
-    set_target_properties(${LIBRARY_NAME} PROPERTIES SUFFIX ".pyd")
+if(MSVC_VERSION GREATER_EQUAL "1900")
+  set_target_properties(${LIBRARY_NAME} PROPERTIES SUFFIX ".pyd")
 endif()
 set_target_properties(${LIBRARY_NAME} PROPERTIES PREFIX "")
-add_custom_command(TARGET ${LIBRARY_NAME} POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:${LIBRARY_NAME}> ${CMAKE_CURRENT_SOURCE_DIR}/Distribution_Iterator/mdf_iter
-    )
+add_custom_command(
+  TARGET ${LIBRARY_NAME}
+  POST_BUILD
+  COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:${LIBRARY_NAME}>
+          ${CMAKE_CURRENT_SOURCE_DIR}/Distribution_Iterator/mdf_iter)
 
 # Build wheel after module.
-add_custom_target(${LIBRARY_NAME}_wheel
-        COMMAND PythonMulti::Interpreter setup.py bdist_wheel
-        DEPENDS ${LIBRARY_NAME}
-        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/Distribution_Iterator
-        )
+add_custom_target(
+  ${LIBRARY_NAME}_wheel
+  COMMAND PythonMulti::Interpreter setup.py bdist_wheel
+  DEPENDS ${LIBRARY_NAME}
+  WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/Distribution_Iterator)

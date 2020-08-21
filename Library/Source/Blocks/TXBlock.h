@@ -5,16 +5,18 @@
 
 namespace mdf {
 
-    struct TXBlock : MdfBlock {
-    public:
-        std::string_view getText() const;
-    protected:
-        bool load(std::shared_ptr<std::streambuf> stream) override;
-        bool saveBlockData(uint8_t * dataPtr) override;
-    private:
-        std::string text;
-    };
+struct TXBlock : MdfBlock {
+public:
+  std::string_view getText() const;
 
-}
+protected:
+  bool load(std::shared_ptr<std::streambuf> stream) override;
+  bool saveBlockData(uint8_t *dataPtr) override;
 
-#endif //MDFSIMPLECONVERTERS_MDBLOCK_H
+private:
+  std::string text;
+};
+
+} // namespace mdf
+
+#endif // MDFSIMPLECONVERTERS_MDBLOCK_H

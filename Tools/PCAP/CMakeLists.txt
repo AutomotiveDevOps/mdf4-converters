@@ -1,6 +1,6 @@
 project(mdf2pcap CXX)
 
-#set(CMAKE_CXX_STANDARD 17)
+# set(CMAKE_CXX_STANDARD 17)
 
 # Set project information.
 set(PROGRAM_NAME ${PROJECT_NAME})
@@ -14,20 +14,14 @@ set(VERSION_PATCH 6)
 find_package(fmt REQUIRED)
 
 # Embed information in the source code.
-configure_file(
-    Source/ProjectInformation.h.in
-    ${CMAKE_CURRENT_BINARY_DIR}/Source/ProjectInformation.h
-    @ONLY)
+configure_file(Source/ProjectInformation.h.in
+               ${CMAKE_CURRENT_BINARY_DIR}/Source/ProjectInformation.h @ONLY)
 include_directories(${CMAKE_CURRENT_BINARY_DIR}/Source)
 
 # List all source files.
 set(SOURCE_FILES_TOOL
-    Source/PCAP_CAN_Exporter.cpp
-    Source/PCAP_CAN_Exporter.h
-    Source/PCAP_Exporter.cpp
-    Source/PCAP_Exporter.h
-    Source/main.cpp
-    )
+    Source/PCAP_CAN_Exporter.cpp Source/PCAP_CAN_Exporter.h
+    Source/PCAP_Exporter.cpp Source/PCAP_Exporter.h Source/main.cpp)
 
 set(SOURCE_FILES_PCAP
     Source/PCAP/PCAP_Block.cpp
@@ -51,19 +45,12 @@ set(SOURCE_FILES_PCAP
     Source/PCAP/PCAP_OptionU64.cpp
     Source/PCAP/PCAP_OptionU64.h
     Source/PCAP/PCAP_SectionHeader.cpp
-    Source/PCAP/PCAP_SectionHeader.h
-    )
+    Source/PCAP/PCAP_SectionHeader.h)
 
-set(SOURCE_FILES
-    ${SOURCE_FILES_TOOL}
-    ${SOURCE_FILES_PCAP}
-    )
+set(SOURCE_FILES ${SOURCE_FILES_TOOL} ${SOURCE_FILES_PCAP})
 
 add_executable(${PROGRAM_NAME} ${SOURCE_FILES})
-target_link_libraries(${PROGRAM_NAME}
-    ${RUNTIME_LIBRARIES}
-    MDFSimpleConverters_Shared
-    fmt::fmt
-    )
+target_link_libraries(${PROGRAM_NAME} ${RUNTIME_LIBRARIES}
+                      MDFSimpleConverters_Shared fmt::fmt)
 
 pack_executable(${PROGRAM_NAME})

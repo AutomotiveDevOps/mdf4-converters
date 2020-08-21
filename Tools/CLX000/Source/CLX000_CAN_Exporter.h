@@ -16,36 +16,37 @@ namespace ts = mdf::tools::shared;
 
 namespace mdf::tools::clx {
 
-    class CLX000_CAN_Exporter : public ts::GenericRecordExporter<CANRecord> {
-    public:
-        explicit CLX000_CAN_Exporter(
-                std::ostream& output,
-                FileInfo const& fileInfo,
-                uint8_t busChannel,
-                CLX000_Configuration const& configuration,
-                shared::DisplayTimeFormat displayLocalTime
-            );
-        void writeHeader() override;
-        void writeRecord(CANRecord const& record) override;
-        void correctHeader();
-    private:
-        void convertTimestampWithYear(std::time_t const& timeStamp, std::ostream &output);
+class CLX000_CAN_Exporter : public ts::GenericRecordExporter<CANRecord> {
+public:
+  explicit CLX000_CAN_Exporter(std::ostream &output,
+                               FileInfo const &fileInfo,
+                               uint8_t busChannel,
+                               CLX000_Configuration const &configuration,
+                               shared::DisplayTimeFormat displayLocalTime);
+  void writeHeader() override;
+  void writeRecord(CANRecord const &record) override;
+  void correctHeader();
 
-        void convertTimestampToFormat(std::chrono::nanoseconds const& timeStamp, std::ostream& output);
+private:
+  void convertTimestampWithYear(std::time_t const &timeStamp,
+                                std::ostream &output);
 
-        uint8_t const busChannel;
-        std::string_view const delimiter;
-        FileInfo const& fileInfo;
+  void convertTimestampToFormat(std::chrono::nanoseconds const &timeStamp,
+                                std::ostream &output);
 
-        std::fpos<mbstate_t> datePosition;
-        time_t headerTimeStamp;
-        bool timeStampSet = false;
+  uint8_t const busChannel;
+  std::string_view const delimiter;
+  FileInfo const &fileInfo;
 
-        CLX000_Configuration const& configuration;
-        std::stringstream timeStampStream;
-        tools::shared::DisplayTimeFormat displayLocalTime;
-    };
+  std::fpos<mbstate_t> datePosition;
+  time_t headerTimeStamp;
+  bool timeStampSet = false;
 
-}
+  CLX000_Configuration const &configuration;
+  std::stringstream timeStampStream;
+  tools::shared::DisplayTimeFormat displayLocalTime;
+};
 
-#endif //TOOLS_CLX_CAN_EXPORTER_H
+} // namespace mdf::tools::clx
+
+#endif // TOOLS_CLX_CAN_EXPORTER_H

@@ -7,12 +7,12 @@
 
 namespace mdf {
 
-    struct MdfHeader {
-        MdfBlockType blockType;
-        uint64_t blockSize;
-        uint64_t linkCount;
-    };
+struct MdfHeader {
+  MdfBlockType blockType;
+  uint64_t blockSize;
+  uint64_t linkCount;
+};
 
-}
+} // namespace mdf
 
-#endif //MDFSIMPLECONVERTERS_MDFHEADER_H
+#endif // MDFSIMPLECONVERTERS_MDFHEADER_H

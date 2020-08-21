@@ -8,8 +8,11 @@
 
 namespace mdf::tools::shared {
 
-    [[nodiscard]] time_t convertTimeStamp(DisplayTimeFormat const& displayTimeFormat, time_t timeStamp, FileInfo const& loggerInfo);
+[[nodiscard]] time_t
+convertTimeStamp(DisplayTimeFormat const &displayTimeFormat,
+                 time_t timeStamp,
+                 FileInfo const &loggerInfo);
 
 }
 
-#endif //TOOLS_SHARED_TIMECONVERTER_H
+#endif // TOOLS_SHARED_TIMECONVERTER_H

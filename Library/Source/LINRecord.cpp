@@ -2,10 +2,10 @@
 
 namespace mdf {
 
-  std::ostream &operator<<(std::ostream & stream, LINRecord const& record) {
-    stream << "A LIN record\n";
+std::ostream &operator<<(std::ostream &stream, LINRecord const &record) {
+  stream << "A LIN record\n";
 
-    return stream;
-  }
-
+  return stream;
 }
+
+} // namespace mdf

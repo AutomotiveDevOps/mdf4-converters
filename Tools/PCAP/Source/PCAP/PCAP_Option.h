@@ -6,23 +6,26 @@
 
 namespace mdf::tools::pcap {
 
-    class PCAP_Option {
-    public:
-        explicit PCAP_Option(uint16_t optionCode);
-        virtual ~PCAP_Option();
+class PCAP_Option {
+public:
+  explicit PCAP_Option(uint16_t optionCode);
+  virtual ~PCAP_Option();
 
-        [[nodiscard]] virtual PCAP_Option* clone() const = 0;
-        [[nodiscard]] virtual uint32_t getSize() const;
+  [[nodiscard]] virtual PCAP_Option *clone() const = 0;
+  [[nodiscard]] virtual uint32_t getSize() const;
 
-        friend std::ostream& operator<<(std::ostream& stream, PCAP_Option const& data);
-    protected:
-        [[nodiscard]] uint16_t getOptionCode() const;
-        virtual void serialize(std::ostream& stream) const = 0;
-    private:
-        uint16_t const optionCode;
-        uint16_t optionLength;
-    };
+  friend std::ostream &operator<<(std::ostream &stream,
+                                  PCAP_Option const &data);
 
-}
+protected:
+  [[nodiscard]] uint16_t getOptionCode() const;
+  virtual void serialize(std::ostream &stream) const = 0;
 
-#endif //TOOLS_PCAP_PCAP_OPTION_H
+private:
+  uint16_t const optionCode;
+  uint16_t optionLength;
+};
+
+} // namespace mdf::tools::pcap
+
+#endif // TOOLS_PCAP_PCAP_OPTION_H

@@ -5,18 +5,18 @@
 
 namespace mdf::tools::socketcan {
 
-  class SocketCAN_Exporter : public tools::shared::ConverterInterface {
-  public:
-    SocketCAN_Exporter();
+class SocketCAN_Exporter : public tools::shared::ConverterInterface {
+public:
+  SocketCAN_Exporter();
 
-    bool convert(boost::filesystem::path inputFilePath, boost::filesystem::path outputFolder) override;
+  bool convert(boost::filesystem::path inputFilePath,
+               boost::filesystem::path outputFolder) override;
 
-    [[nodiscard]] Version getVersion() const override;
+  [[nodiscard]] Version getVersion() const override;
 
-  private:
+private:
+};
 
-  };
+} // namespace mdf::tools::socketcan
 
-}
-
-#endif //TOOLS_SOCKETCAN_EXPORTER_H
+#endif // TOOLS_SOCKETCAN_EXPORTER_H

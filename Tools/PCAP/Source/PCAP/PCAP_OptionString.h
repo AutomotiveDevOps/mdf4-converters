@@ -7,20 +7,20 @@
 
 namespace mdf::tools::pcap {
 
-    class PCAP_OptionString : public PCAP_Option {
-    public:
-        explicit PCAP_OptionString(uint16_t optionCode);
-        explicit PCAP_OptionString(uint16_t optionCode, std::string data);
+class PCAP_OptionString : public PCAP_Option {
+public:
+  explicit PCAP_OptionString(uint16_t optionCode);
+  explicit PCAP_OptionString(uint16_t optionCode, std::string data);
 
-        [[nodiscard]] PCAP_OptionString* clone() const override;
-        [[nodiscard]] uint32_t getSize() const override;
+  [[nodiscard]] PCAP_OptionString *clone() const override;
+  [[nodiscard]] uint32_t getSize() const override;
 
-        std::string data;
-    private:
-        void serialize(std::ostream& stream) const override;
-    };
+  std::string data;
 
+private:
+  void serialize(std::ostream &stream) const override;
+};
 
-}
+} // namespace mdf::tools::pcap
 
-#endif //TOOLS_PCAP_PCAP_OPTIONSTRING_H
+#endif // TOOLS_PCAP_PCAP_OPTIONSTRING_H

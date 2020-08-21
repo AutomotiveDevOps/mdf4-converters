@@ -6,14 +6,14 @@
 
 namespace mdf {
 
-  struct Version {
-    unsigned int major;
-    unsigned int minor;
-    std::optional<unsigned int> patch;
-  };
+struct Version {
+  unsigned int major;
+  unsigned int minor;
+  std::optional<unsigned int> patch;
+};
 
-  std::ostream &operator<<(std::ostream &stream, const Version &version);
+std::ostream &operator<<(std::ostream &stream, const Version &version);
 
-}
+} // namespace mdf
 
-#endif //MDFSIMPLECONVERTERS_VERSION_H
+#endif // MDFSIMPLECONVERTERS_VERSION_H

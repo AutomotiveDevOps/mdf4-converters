@@ -5,10 +5,10 @@
 
 namespace mdf {
 
-  struct IDataBlock {
-    virtual uint64_t operator[](std::size_t index) = 0;
-  };
+struct IDataBlock {
+  virtual uint64_t operator[](std::size_t index) = 0;
+};
 
-}
+} // namespace mdf
 
-#endif //MDFSIMPLECONVERTERS_IDATABLOCK_H
+#endif // MDFSIMPLECONVERTERS_IDATABLOCK_H

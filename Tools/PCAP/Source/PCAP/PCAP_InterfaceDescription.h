@@ -10,27 +10,28 @@
 
 namespace mdf::tools::pcap {
 
-    class PCAP_InterfaceDescription : public PCAP_Block {
-    public:
-        PCAP_InterfaceDescription();
+class PCAP_InterfaceDescription : public PCAP_Block {
+public:
+  PCAP_InterfaceDescription();
 
-        void setDescription(std::string description);
-        void setName(std::string name);
-        void setSpeed(uint64_t bitRate);
+  void setDescription(std::string description);
+  void setName(std::string name);
+  void setSpeed(uint64_t bitRate);
 
-        uint16_t linkType;
-        uint32_t snapLen;
-    private:
-        PCAP_OptionList options;
+  uint16_t linkType;
+  uint32_t snapLen;
 
-        std::shared_ptr<PCAP_OptionU64> optionBitRate;
-        std::shared_ptr<PCAP_OptionString> optionDescription;
-        std::shared_ptr<PCAP_OptionString> optionName;
+private:
+  PCAP_OptionList options;
 
-        void serialize(std::ostream& stream) const override;
-        void updateSize();
-    };
+  std::shared_ptr<PCAP_OptionU64> optionBitRate;
+  std::shared_ptr<PCAP_OptionString> optionDescription;
+  std::shared_ptr<PCAP_OptionString> optionName;
 
-}
+  void serialize(std::ostream &stream) const override;
+  void updateSize();
+};
 
-#endif //TOOLS_PCAP_PCAP_INTERFACEDESCRIPTION_H
+} // namespace mdf::tools::pcap
+
+#endif // TOOLS_PCAP_PCAP_INTERFACEDESCRIPTION_H

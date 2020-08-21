@@ -8,5 +8,5 @@ message("${APPIMAGE_DEP}")
 find_package(AppImage)
 
 if(NOT AppImage_FOUND)
-    message("Appimage not found, error")
+  message("Appimage not found, error")
 endif()

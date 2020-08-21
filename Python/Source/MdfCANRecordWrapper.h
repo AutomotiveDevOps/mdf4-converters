@@ -1,38 +1,37 @@
 #ifndef MDFSUPER_MDFCANRECORDWRAPPER_H
 #define MDFSUPER_MDFCANRECORDWRAPPER_H
 
-#include <CXX/Objects.hxx>
 #include <CXX/Extensions.hxx>
+#include <CXX/Objects.hxx>
 
 #include <CANRecord.h>
 
 struct MdfCANRecordWrapper : public Py::PythonExtension<MdfCANRecordWrapper> {
-    MdfCANRecordWrapper(mdf::CANRecord const &data);
+  MdfCANRecordWrapper(mdf::CANRecord const &data);
 
-    virtual ~MdfCANRecordWrapper();
+  virtual ~MdfCANRecordWrapper();
 
-    static void init_type(void);
+  static void init_type(void);
 
-    Py::Object repr() override;
+  Py::Object repr() override;
 
-    virtual Py::Object getattro(const Py::String& name) override;
+  virtual Py::Object getattro(const Py::String &name) override;
 
-    Py::Object pubattr;
+  Py::Object pubattr;
 
 private:
-    Py::Dict dict;
+  Py::Dict dict;
 
-    Py::Float TimeStamp;
-    Py::Long BusChannel;
-    Py::Long ID;
-    Py::Boolean IDE;
-    Py::Long DLC;
-    Py::Long DataLength;
-    Py::Boolean Dir;
-    Py::Boolean EDL;
-    Py::Boolean BRS;
-    Py::Bytes DataBytes;
+  Py::Float TimeStamp;
+  Py::Long BusChannel;
+  Py::Long ID;
+  Py::Boolean IDE;
+  Py::Long DLC;
+  Py::Long DataLength;
+  Py::Boolean Dir;
+  Py::Boolean EDL;
+  Py::Boolean BRS;
+  Py::Bytes DataBytes;
 };
 
-
-#endif //MDFSUPER_MDFCANRECORDWRAPPER_H
+#endif // MDFSUPER_MDFCANRECORDWRAPPER_H

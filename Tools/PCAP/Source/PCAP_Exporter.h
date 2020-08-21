@@ -6,14 +6,15 @@
 namespace mdf::tools::pcap {
 
 class PCAP_Exporter : public tools::shared::ConverterInterface {
-    public:
-        PCAP_Exporter();
-        bool convert(boost::filesystem::path inputFilePath, boost::filesystem::path outputFolder) override;
-        [[nodiscard]] Version getVersion() const override;
-    private:
+public:
+  PCAP_Exporter();
+  bool convert(boost::filesystem::path inputFilePath,
+               boost::filesystem::path outputFolder) override;
+  [[nodiscard]] Version getVersion() const override;
 
-    };
+private:
+};
 
-}
+} // namespace mdf::tools::pcap
 
-#endif //TOOLS_PCAP_EXPORTER_H
+#endif // TOOLS_PCAP_EXPORTER_H

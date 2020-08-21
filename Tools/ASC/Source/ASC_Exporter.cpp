@@ -10,86 +10,86 @@ using namespace mdf;
 
 namespace mdf::tools::asc {
 
-  ASC_Exporter::ASC_Exporter() : ConverterInterface("mdf2asc") {
+ASC_Exporter::ASC_Exporter() : ConverterInterface("mdf2asc") {}
 
-  }
+bool ASC_Exporter::convert(boost::filesystem::path inputFilePath,
+                           boost::filesystem::path outputFolder) {
+  bool status = false;
 
-  bool ASC_Exporter::convert(boost::filesystem::path inputFilePath, boost::filesystem::path outputFolder) {
-    bool status = false;
+  // Attempt to open the input file.
+  std::unique_ptr<MdfFile> mdfFile = MdfFile::Create(inputFilePath.string());
 
-    // Attempt to open the input file.
-    std::unique_ptr<MdfFile> mdfFile = MdfFile::Create(inputFilePath.string());
+  if (mdfFile) {
+    // Create the base file name.
+    std::string const outputFileBase = inputFilePath.stem().string() + "_";
 
-    if (mdfFile) {
-      // Create the base file name.
-      std::string const outputFileBase = inputFilePath.stem().string() + "_";
+    // Determine if any data is present.
+    FileInfo info = mdfFile->getFileInfo();
 
-      // Determine if any data is present.
-      FileInfo info = mdfFile->getFileInfo();
+    // Determine the number of data records.
+    auto const totalRecords =
+        static_cast<unsigned int>(info.CANMessages + info.LINMessages);
 
-      // Determine the number of data records.
-      auto const totalRecords = static_cast<unsigned int>(info.CANMessages + info.LINMessages);
+    if (info.CANMessages > 0) {
+      // Create an output for the CAN messages.
+      auto outputFilePathCAN = outputFolder / (outputFileBase + "CAN.asc");
+      std::ofstream output(outputFilePathCAN.string());
 
-      if (info.CANMessages > 0) {
-        // Create an output for the CAN messages.
-        auto outputFilePathCAN = outputFolder / (outputFileBase + "CAN.asc");
-        std::ofstream output(outputFilePathCAN.string());
+      // Create a CAN exporter.
+      ASC_CAN_Exporter exporter(output, info, commonOptions->displayTimeFormat);
 
-        // Create a CAN exporter.
-        ASC_CAN_Exporter exporter(output, info, commonOptions->displayTimeFormat);
+      // Write the header.
+      exporter.writeHeader();
 
-        // Write the header.
-        exporter.writeHeader();
+      mdf::tools::shared::ProgressIndicator indicator(
+          0, info.CANMessages, commonOptions->nonInteractiveMode);
+      indicator.setPrefix("CAN");
+      std::size_t i = 0;
 
-        mdf::tools::shared::ProgressIndicator indicator(0, info.CANMessages, commonOptions->nonInteractiveMode);
-        indicator.setPrefix("CAN");
-        std::size_t i = 0;
+      // Extract iterator and write all records.
+      auto iter = mdfFile->getCANIterator();
 
-        // Extract iterator and write all records.
-        auto iter = mdfFile->getCANIterator();
-
-        indicator.begin();
-        for (auto const &entry: iter) {
-          exporter.writeRecord(entry);
-          indicator.update(++i);
-        }
-        indicator.end();
+      indicator.begin();
+      for (auto const &entry : iter) {
+        exporter.writeRecord(entry);
+        indicator.update(++i);
       }
-
-      if (info.LINMessages > 0) {
-        // Create an output for the CAN messages.
-        auto outputFilePathLIN = outputFolder / (outputFileBase + "LIN.asc");
-        std::ofstream output(outputFilePathLIN.string());
-
-        // Create a CAN exporter.
-        ASC_LIN_Exporter exporter(output, info, commonOptions->displayTimeFormat);
-
-        // Write the header.
-        exporter.writeHeader();
-
-        mdf::tools::shared::ProgressIndicator indicator(0, info.LINMessages, commonOptions->nonInteractiveMode);
-        indicator.setPrefix("LIN");
-        std::size_t i = 0;
-
-        // Extract iterator and write all records.
-        auto iter = mdfFile->getLINIterator();
-
-        indicator.begin();
-        for (auto const &entry: iter) {
-          exporter.writeRecord(entry);
-          indicator.update(++i);
-        }
-        indicator.end();
-      }
-
-      status = true;
+      indicator.end();
     }
 
-    return status;
+    if (info.LINMessages > 0) {
+      // Create an output for the CAN messages.
+      auto outputFilePathLIN = outputFolder / (outputFileBase + "LIN.asc");
+      std::ofstream output(outputFilePathLIN.string());
+
+      // Create a CAN exporter.
+      ASC_LIN_Exporter exporter(output, info, commonOptions->displayTimeFormat);
+
+      // Write the header.
+      exporter.writeHeader();
+
+      mdf::tools::shared::ProgressIndicator indicator(
+          0, info.LINMessages, commonOptions->nonInteractiveMode);
+      indicator.setPrefix("LIN");
+      std::size_t i = 0;
+
+      // Extract iterator and write all records.
+      auto iter = mdfFile->getLINIterator();
+
+      indicator.begin();
+      for (auto const &entry : iter) {
+        exporter.writeRecord(entry);
+        indicator.update(++i);
+      }
+      indicator.end();
+    }
+
+    status = true;
   }
 
-  Version ASC_Exporter::getVersion() const {
-    return mdf::tools::asc::version;
-  }
-
+  return status;
 }
+
+Version ASC_Exporter::getVersion() const { return mdf::tools::asc::version; }
+
+} // namespace mdf::tools::asc

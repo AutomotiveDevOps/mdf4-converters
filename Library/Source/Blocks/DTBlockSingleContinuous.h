@@ -5,16 +5,16 @@
 
 namespace mdf {
 
-  struct DTBlockSingleContinuous : DTBlock {
-    DTBlockSingleContinuous(DTBlock const& parent, std::size_t recordSize);
+struct DTBlockSingleContinuous : DTBlock {
+  DTBlockSingleContinuous(DTBlock const &parent, std::size_t recordSize);
 
-    uint64_t operator[](std::size_t index) override;
+  uint64_t operator[](std::size_t index) override;
 
-  protected:
-    bool saveBlockData(uint8_t * dataPtr) override;
-    std::size_t recordSize;
-  };
+protected:
+  bool saveBlockData(uint8_t *dataPtr) override;
+  std::size_t recordSize;
+};
 
-}
+} // namespace mdf
 
-#endif //MDFSIMPLECONVERTERS_DTBLOCKSINGLECONTINUOUS_H
+#endif // MDFSIMPLECONVERTERS_DTBLOCKSINGLECONTINUOUS_H

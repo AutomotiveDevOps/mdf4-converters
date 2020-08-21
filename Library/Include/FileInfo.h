@@ -8,28 +8,28 @@
 
 namespace mdf {
 
-  struct FileInfo {
-    FileInfo();
+struct FileInfo {
+  FileInfo();
 
-    uint32_t Session;
-    uint32_t Split;
-    uint32_t LoggerID;
-    uint32_t LoggerType;
-    uint32_t BitrateCAN1;
-    uint32_t BitrateCAN2;
-    uint32_t BitrateLIN1;
-    uint32_t BitrateLIN2;
-    char Comment[30 + 1];
+  uint32_t Session;
+  uint32_t Split;
+  uint32_t LoggerID;
+  uint32_t LoggerType;
+  uint32_t BitrateCAN1;
+  uint32_t BitrateCAN2;
+  uint32_t BitrateLIN1;
+  uint32_t BitrateLIN2;
+  char Comment[30 + 1];
 
-    std::chrono::nanoseconds Time;
-    int16_t TimezoneOffsetMinutes;
+  std::chrono::nanoseconds Time;
+  int16_t TimezoneOffsetMinutes;
 
-    Version FW_Version;
-    Version HW_Version;
-    uint64_t CANMessages;
-    uint64_t LINMessages;
-  };
+  Version FW_Version;
+  Version HW_Version;
+  uint64_t CANMessages;
+  uint64_t LINMessages;
+};
 
-}
+} // namespace mdf
 
-#endif //MDFSIMPLECONVERTERS_FILEINFO_H
+#endif // MDFSIMPLECONVERTERS_FILEINFO_H

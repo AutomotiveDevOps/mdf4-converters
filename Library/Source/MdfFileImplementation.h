@@ -3,59 +3,60 @@
 
 #include <memory>
 
-#include "MdfFile.h"
 #include "BlockStorage.h"
 #include "Blocks/DGBlock.h"
 #include "Blocks/HDBlock.h"
 #include "Blocks/IDBlock.h"
+#include "MdfFile.h"
 
 namespace mdf {
 
-    struct MdfFileImplementation : MdfFile {
-        MdfFileImplementation();
+struct MdfFileImplementation : MdfFile {
+  MdfFileImplementation();
 
-        ~MdfFileImplementation();
+  ~MdfFileImplementation();
 
-        bool finalize() override;
+  bool finalize() override;
 
-        bool finalize_setLengthOfLastDTBlock();
+  bool finalize_setLengthOfLastDTBlock();
 
-        bool finalize_updateCycleCountersInCGCABlocks();
+  bool finalize_updateCycleCountersInCGCABlocks();
 
-        bool finalize_updateByteCountersInVLSDCGBlocks();
+  bool finalize_updateByteCountersInVLSDCGBlocks();
 
-        bool sort() override;
+  bool sort() override;
 
-        bool sort_VLSDCGtoSD();
+  bool sort_VLSDCGtoSD();
 
-        bool sort_CGtoDG();
+  bool sort_CGtoDG();
 
-        [[nodiscard]] FileInfo getFileInfo() const override;
+  [[nodiscard]] FileInfo getFileInfo() const override;
 
-        bool load(std::shared_ptr<std::streambuf> stream);
+  bool load(std::shared_ptr<std::streambuf> stream);
 
-        bool loadFileInfo() override;
+  bool loadFileInfo() override;
 
-        std::chrono::nanoseconds getFirstMeasurement() override;
+  std::chrono::nanoseconds getFirstMeasurement() override;
 
-        bool save(std::string fileName) override;
+  bool save(std::string fileName) override;
 
-        RecordIterator<CANRecord const> getCANIterator() override;
+  RecordIterator<CANRecord const> getCANIterator() override;
 
-        RecordIterator<LINRecord const> getLINIterator() override;
+  RecordIterator<LINRecord const> getLINIterator() override;
 
-    private:
-        [[nodiscard]] std::shared_ptr<HDBlock> getHDBlock() const;
+private:
+  [[nodiscard]] std::shared_ptr<HDBlock> getHDBlock() const;
 
-        [[nodiscard]] std::shared_ptr<DGBlock> findBUSBlock(SIBlockBusType busType) const;
+  [[nodiscard]] std::shared_ptr<DGBlock>
+  findBUSBlock(SIBlockBusType busType) const;
 
-        FileInfo fileInfo;
+  FileInfo fileInfo;
 
-        std::unique_ptr<BlockStorage> blockStorage;
-        std::unique_ptr<IDBlock> idBlock;
-        std::shared_ptr<std::streambuf> stream;
-    };
+  std::unique_ptr<BlockStorage> blockStorage;
+  std::unique_ptr<IDBlock> idBlock;
+  std::shared_ptr<std::streambuf> stream;
+};
 
-}
+} // namespace mdf
 
-#endif //MDFSIMPLECONVERTERS_MDFFILEIMPLEMENTATION_H
+#endif // MDFSIMPLECONVERTERS_MDFFILEIMPLEMENTATION_H

@@ -1,10 +1,6 @@
 #ifndef MDFSUPER_LOGGER_H
 #define MDFSUPER_LOGGER_H
 
-namespace mdf {
+namespace mdf {}
 
-
-
-}
-
-#endif //MDFSUPER_LOGGER_H
+#endif // MDFSUPER_LOGGER_H

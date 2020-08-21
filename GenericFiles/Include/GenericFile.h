@@ -10,30 +10,32 @@
 
 namespace mdf::generic {
 
-    enum class GenericFileType : uint16_t {
-        Unknown = 0x00,
-        EncryptedFile = 0x11,
-        CompressedFile = 0x22,
-    };
+enum class GenericFileType : uint16_t {
+  Unknown = 0x00,
+  EncryptedFile = 0x11,
+  CompressedFile = 0x22,
+};
 
-    class GenericFile {
-    protected:
-        class GenericFileImplementation;
-        std::unique_ptr<GenericFileImplementation> implementation;
-    public:
-        explicit GenericFile(std::vector<uint8_t> const& data);
-        explicit GenericFile(std::istream& dataStream);
-        explicit GenericFile(boost::filesystem::path const& filePath);
-        ~GenericFile();
+class GenericFile {
+protected:
+  class GenericFileImplementation;
+  std::unique_ptr<GenericFileImplementation> implementation;
 
-        [[nodiscard]] uint32_t getDeviceID() const;
-        [[nodiscard]] uint8_t getFileVersionMajor() const;
-        [[nodiscard]] uint8_t getFileVersionMinor() const;
-        [[nodiscard]] GenericFileType getGenericFileType() const;
-    };
+public:
+  explicit GenericFile(std::vector<uint8_t> const &data);
+  explicit GenericFile(std::istream &dataStream);
+  explicit GenericFile(boost::filesystem::path const &filePath);
+  ~GenericFile();
 
-    [[nodiscard]] GenericFileType getGenericFileType(boost::filesystem::path const& filePath);
+  [[nodiscard]] uint32_t getDeviceID() const;
+  [[nodiscard]] uint8_t getFileVersionMajor() const;
+  [[nodiscard]] uint8_t getFileVersionMinor() const;
+  [[nodiscard]] GenericFileType getGenericFileType() const;
+};
 
-}
+[[nodiscard]] GenericFileType
+getGenericFileType(boost::filesystem::path const &filePath);
 
-#endif //MDFSIMPLECONVERTERS_GENERICFILE_H
+} // namespace mdf::generic
+
+#endif // MDFSIMPLECONVERTERS_GENERICFILE_H

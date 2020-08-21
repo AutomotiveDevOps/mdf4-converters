@@ -6,23 +6,23 @@
 
 namespace mdf::tools::pcap {
 
-    class PCAP_Block {
-    public:
-        friend std::ostream& operator<<(std::ostream& stream, PCAP_Block const& data);
-    protected:
-        explicit PCAP_Block(uint32_t blockType);
-        uint32_t blockLength;
+class PCAP_Block {
+public:
+  friend std::ostream &operator<<(std::ostream &stream, PCAP_Block const &data);
 
-        virtual void serialize(std::ostream& stream) const = 0;
-    private:
-        uint32_t const blockType;
+protected:
+  explicit PCAP_Block(uint32_t blockType);
+  uint32_t blockLength;
 
-        void writeFooter(std::ostream& stream) const;
-        void writeHeader(std::ostream& stream) const;
-    };
+  virtual void serialize(std::ostream &stream) const = 0;
 
+private:
+  uint32_t const blockType;
 
+  void writeFooter(std::ostream &stream) const;
+  void writeHeader(std::ostream &stream) const;
+};
 
-}
+} // namespace mdf::tools::pcap
 
-#endif //TOOLS_PCAP_PCAP_BLOCK_H
+#endif // TOOLS_PCAP_PCAP_BLOCK_H

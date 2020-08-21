@@ -7,11 +7,11 @@
 
 namespace mdf {
 
-    struct IBlockStorage {
-        virtual ~IBlockStorage() = default;
-        virtual std::shared_ptr<MdfBlock> getBlockAt(uint64_t address) = 0;
-    };
+struct IBlockStorage {
+  virtual ~IBlockStorage() = default;
+  virtual std::shared_ptr<MdfBlock> getBlockAt(uint64_t address) = 0;
+};
 
-}
+} // namespace mdf
 
-#endif //MDFSIMPLECONVERTERS_IBLOCKSTORAGE_H
+#endif // MDFSIMPLECONVERTERS_IBLOCKSTORAGE_H

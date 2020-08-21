@@ -5,8 +5,8 @@
 
 namespace mdf {
 
-  extern const Version version;
+extern const Version version;
 
 }
 
-#endif //MDFSIMPLECONVERTERS_LIBRARY_H
+#endif // MDFSIMPLECONVERTERS_LIBRARY_H

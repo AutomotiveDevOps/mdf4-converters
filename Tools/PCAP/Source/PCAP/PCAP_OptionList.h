@@ -8,18 +8,20 @@
 
 namespace mdf::tools::pcap {
 
-    class PCAP_OptionList {
-    public:
-        void addOption(PCAP_Option const& option);
-        void addOption(std::shared_ptr<PCAP_Option> const& option);
+class PCAP_OptionList {
+public:
+  void addOption(PCAP_Option const &option);
+  void addOption(std::shared_ptr<PCAP_Option> const &option);
 
-        [[nodiscard]] uint32_t getSize() const;
+  [[nodiscard]] uint32_t getSize() const;
 
-        friend std::ostream& operator<<(std::ostream& stream, PCAP_OptionList const& data);
-    private:
-        std::vector<std::shared_ptr<PCAP_Option>> options;
-    };
+  friend std::ostream &operator<<(std::ostream &stream,
+                                  PCAP_OptionList const &data);
 
-}
+private:
+  std::vector<std::shared_ptr<PCAP_Option>> options;
+};
 
-#endif //TOOLS_PCAP_PCAP_OPTIONLIST_H
+} // namespace mdf::tools::pcap
+
+#endif // TOOLS_PCAP_PCAP_OPTIONLIST_H

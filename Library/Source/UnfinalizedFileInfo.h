@@ -8,16 +8,17 @@
 
 namespace mdf {
 
-    struct UnfinalizedFileInfo {
-        UnfinalizedFileInfo(std::shared_ptr<HDBlock> hdBlock, std::shared_ptr<std::streambuf> dataSource);
+struct UnfinalizedFileInfo {
+  UnfinalizedFileInfo(std::shared_ptr<HDBlock> hdBlock,
+                      std::shared_ptr<std::streambuf> dataSource);
 
-        std::chrono::nanoseconds firstMeasurement() const;
-    private:
-        std::shared_ptr<HDBlock> hdBlock;
-        std::shared_ptr<std::streambuf> dataSource;
-    };
+  std::chrono::nanoseconds firstMeasurement() const;
 
+private:
+  std::shared_ptr<HDBlock> hdBlock;
+  std::shared_ptr<std::streambuf> dataSource;
+};
 
-}
+} // namespace mdf
 
-#endif //MDFSUPER_UNFINALIZEDFILEINFO_H
+#endif // MDFSUPER_UNFINALIZEDFILEINFO_H

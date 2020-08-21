@@ -7,20 +7,20 @@
 PYCXX_USER_EXCEPTION_STR_ARG(SimpleError)
 
 Module::Module() : Py::ExtensionModule<Module>("mdf_iter") {
-    // Map logging from boost to python.
-    mdf::python::setupLogging();
+  // Map logging from boost to python.
+  mdf::python::setupLogging();
 
-    MdfFileWrapper::init_type();
-    MdfCANIteratorWrapper::init_type();
-    MdfCANRecordWrapper::init_type();
+  MdfFileWrapper::init_type();
+  MdfCANIteratorWrapper::init_type();
+  MdfCANRecordWrapper::init_type();
 
-    initialize("");
+  initialize("");
 
-    Py::Dict dict(moduleDictionary());
-    Py::Object MdfFileType(MdfFileWrapper::type());
-    dict["MdfFile"] = MdfFileType;
+  Py::Dict dict(moduleDictionary());
+  Py::Object MdfFileType(MdfFileWrapper::type());
+  dict["MdfFile"] = MdfFileType;
 
-    SimpleError::init(*this);
+  SimpleError::init(*this);
 }
 
 Module::~Module() = default;

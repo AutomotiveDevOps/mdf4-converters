@@ -5,17 +5,14 @@ include(CMake/Package.cmake)
 set(RESOURCE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/Resources)
 set(ICON_PATH ${RESOURCE_PATH}/icon.ico)
 
-if (MSVC_VERSION GREATER_EQUAL "1900")
-    set(RUNTIME_LIBRARIES "")
+if(MSVC_VERSION GREATER_EQUAL "1900")
+  set(RUNTIME_LIBRARIES "")
 else()
-    set(RUNTIME_LIBRARIES
-            -static-libstdc++
-            -static-libgcc
-            )
+  set(RUNTIME_LIBRARIES -static-libstdc++ -static-libgcc)
 endif()
 
 if(MINGW)
-    list(APPEND RUNTIME_LIBRARIES -static)
+  list(APPEND RUNTIME_LIBRARIES -static)
 endif()
 
 # Shared base for all the tools.
@@ -38,9 +35,6 @@ set(EXTERNAL_TARGETS
     mdf2finalized
     mdf2pcap
     mdf2peak
-    mdf2socketcan
-    )
+    mdf2socketcan)
 
-add_custom_target(ToolsRelease
-    DEPENDS ${EXTERNAL_TARGETS}
-    )
+add_custom_target(ToolsRelease DEPENDS ${EXTERNAL_TARGETS})

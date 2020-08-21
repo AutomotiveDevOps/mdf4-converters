@@ -15,74 +15,77 @@
 
 namespace mdf::tools::shared {
 
-  class ExecutableInterface {
-  public:
-    explicit ExecutableInterface(std::unique_ptr<ConverterInterface> interface);
+class ExecutableInterface {
+public:
+  explicit ExecutableInterface(std::unique_ptr<ConverterInterface> interface);
 
-    /**
-     * Entry point.
-     * @param argc Number of arguments passed on the commandline.
-     * @param argv Values of arguments passed on the commandline.
-     * @return Status.
-     */
-    StatusCode main(int argc, char** argv);
+  /**
+   * Entry point.
+   * @param argc Number of arguments passed on the commandline.
+   * @param argv Values of arguments passed on the commandline.
+   * @return Status.
+   */
+  StatusCode main(int argc, char **argv);
 
-  private:
-    /**
-     * Configures the argument parser for shared properties.
-     */
-    void configureParser();
+private:
+  /**
+   * Configures the argument parser for shared properties.
+   */
+  void configureParser();
 
-    /**
-     * Used to print help text to the commandline.
-     */
-    void displayHelp() const;
+  /**
+   * Used to print help text to the commandline.
+   */
+  void displayHelp() const;
 
-    /**
-     *
-     * @param unrecognizedOptions
-     */
-    void displayUnrecognizedOptions(std::vector<std::string> const &unrecognizedOptions) const;
+  /**
+   *
+   * @param unrecognizedOptions
+   */
+  void displayUnrecognizedOptions(
+      std::vector<std::string> const &unrecognizedOptions) const;
 
-    /**
-     * Prints version information to the commandline.
-     */
-    void displayVersion() const;
+  /**
+   * Prints version information to the commandline.
+   */
+  void displayVersion() const;
 
-    /**
-     *
-     * @param result
-     * @return
-     */
-    ParseOptionStatus parseOptions(boost::program_options::variables_map const &result);
+  /**
+   *
+   * @param result
+   * @return
+   */
+  ParseOptionStatus
+  parseOptions(boost::program_options::variables_map const &result);
 
-    /**
-     * List of shared and interface options to accept on the commandline.
-     */
-    boost::program_options::options_description commandlineOptions;
+  /**
+   * List of shared and interface options to accept on the commandline.
+   */
+  boost::program_options::options_description commandlineOptions;
 
-    /**
-     * List of shared options to accept at specific locations.
-     */
-    boost::program_options::positional_options_description commandlinePositionalOptions;
+  /**
+   * List of shared options to accept at specific locations.
+   */
+  boost::program_options::positional_options_description
+      commandlinePositionalOptions;
 
-    /**
-     * List of interface options to accept in a configuration file.
-     */
-    boost::program_options::options_description configFileOptions;
+  /**
+   * List of interface options to accept in a configuration file.
+   */
+  boost::program_options::options_description configFileOptions;
 
-    boost::program_options::variables_map optionResult;
-    std::vector<boost::filesystem::path> inputFiles;
-    std::shared_ptr<CommonOptions> commonOptions;
-    std::shared_ptr<PasswordStorage> passwordStorage;
-    std::vector<std::string> earlyLogMessages;
+  boost::program_options::variables_map optionResult;
+  std::vector<boost::filesystem::path> inputFiles;
+  std::shared_ptr<CommonOptions> commonOptions;
+  std::shared_ptr<PasswordStorage> passwordStorage;
+  std::vector<std::string> earlyLogMessages;
 
-    /**
-     * Storage for the converter interface to utilize.
-     */
-    std::unique_ptr<ConverterInterface> interface;
-  };
+  /**
+   * Storage for the converter interface to utilize.
+   */
+  std::unique_ptr<ConverterInterface> interface;
+};
 
-}
+} // namespace mdf::tools::shared
 
-#endif //TOOLS_SHARED_EXECUTABLEINTERFACE_H
+#endif // TOOLS_SHARED_EXECUTABLEINTERFACE_H

@@ -4,12 +4,13 @@
 #include <string>
 
 namespace mdf {
-    enum class IsCompressedFileStatus : int {
+enum class IsCompressedFileStatus : int {
 
-    };
+};
 
-    bool isCompressedFile(std::string const& fileName);
-    bool decompressFile(std::string const& inputFile, std::string const& outputFile);
-}
+bool isCompressedFile(std::string const &fileName);
+bool decompressFile(std::string const &inputFile,
+                    std::string const &outputFile);
+} // namespace mdf
 
-#endif //MDFSIMPLECONVERTERS_HEATSHRINKFILE_H
+#endif // MDFSIMPLECONVERTERS_HEATSHRINKFILE_H

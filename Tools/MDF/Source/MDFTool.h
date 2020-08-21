@@ -7,23 +7,26 @@
 
 namespace mdf::tools::finalizer {
 
-  class MDFTool : public mdf::tools::shared::ConverterInterface {
-  public:
-    MDFTool();
+class MDFTool : public mdf::tools::shared::ConverterInterface {
+public:
+  MDFTool();
 
-    void configureParser(boost::program_options::options_description &opts) override;
+  void
+  configureParser(boost::program_options::options_description &opts) override;
 
-    bool convert(boost::filesystem::path inputFilePath, boost::filesystem::path outputFolder) override;
+  bool convert(boost::filesystem::path inputFilePath,
+               boost::filesystem::path outputFolder) override;
 
-    mdf::tools::shared::ParseOptionStatus parseOptions(boost::program_options::variables_map const &result) override;
+  mdf::tools::shared::ParseOptionStatus
+  parseOptions(boost::program_options::variables_map const &result) override;
 
-    [[nodiscard]] Version getVersion() const override;
+  [[nodiscard]] Version getVersion() const override;
 
-  private:
-    bool overwrite;
-    std::string appendName;
-  };
+private:
+  bool overwrite;
+  std::string appendName;
+};
 
-}
+} // namespace mdf::tools::finalizer
 
-#endif //TOOLS_MDFTOOL_H
+#endif // TOOLS_MDFTOOL_H

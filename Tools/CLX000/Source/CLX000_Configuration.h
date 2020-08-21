@@ -3,21 +3,21 @@
 
 namespace mdf::tools::clx {
 
-    struct CLX000_Configuration {
-        char ValueSeparator[2];
-        int TimestampFormat;
-        char TimestampTimeSeparator[2];
-        char TimestampTimeMsSeparator[2];
-        char TimestampDateSeparator[2];
-        char TimeTimeDateSeparator[2];
+struct CLX000_Configuration {
+  char ValueSeparator[2];
+  int TimestampFormat;
+  char TimestampTimeSeparator[2];
+  char TimestampTimeMsSeparator[2];
+  char TimestampDateSeparator[2];
+  char TimeTimeDateSeparator[2];
 
-        bool DataFields_timestamp;
-        bool DataFields_type;
-        bool DataFields_id;
-        bool DataFields_dataLength;
-        bool DataFields_data;
-    };
+  bool DataFields_timestamp;
+  bool DataFields_type;
+  bool DataFields_id;
+  bool DataFields_dataLength;
+  bool DataFields_data;
+};
 
-}
+} // namespace mdf::tools::clx
 
-#endif //TOOLS_CLX_CONFIGURATION_H
+#endif // TOOLS_CLX_CONFIGURATION_H

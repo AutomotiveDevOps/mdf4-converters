@@ -6,35 +6,37 @@
 #include <ctime>
 #include <sstream>
 
-#include "LINRecord.h"
 #include "CommonOptions.h"
 #include "FileInfo.h"
+#include "LINRecord.h"
 
 namespace mdf::tools::asc {
 
-  class ASC_LIN_Exporter : public tools::shared::GenericRecordExporter<LINRecord> {
-  public:
-    explicit ASC_LIN_Exporter(std::ostream &output, FileInfo const &fileInfo,
-      tools::shared::DisplayTimeFormat displayLocalTime);
+class ASC_LIN_Exporter
+    : public tools::shared::GenericRecordExporter<LINRecord> {
+public:
+  explicit ASC_LIN_Exporter(std::ostream &output,
+                            FileInfo const &fileInfo,
+                            tools::shared::DisplayTimeFormat displayLocalTime);
 
-    void writeHeader() override;
+  void writeHeader() override;
 
-    void writeRecord(LINRecord const &record) override;
+  void writeRecord(LINRecord const &record) override;
 
-  private:
-    std::string const delimiter = ";";
-    std::chrono::nanoseconds firstTimeStamp;
-    bool firstTimeStampSet = false;
-    tools::shared::DisplayTimeFormat displayLocalTime;
+private:
+  std::string const delimiter = ";";
+  std::chrono::nanoseconds firstTimeStamp;
+  bool firstTimeStampSet = false;
+  tools::shared::DisplayTimeFormat displayLocalTime;
 
-    std::stringstream timeStampString;
-    FileInfo const &fileInfo;
+  std::stringstream timeStampString;
+  FileInfo const &fileInfo;
 
-    std::string convertTimestamp(double const &timeStamp);
+  std::string convertTimestamp(double const &timeStamp);
 
-    std::string convertTimestamp(std::time_t const &timeStamp);
-  };
+  std::string convertTimestamp(std::time_t const &timeStamp);
+};
 
-}
+} // namespace mdf::tools::asc
 
-#endif //TOOLS_ASC_LIN_EXPORTER_H
+#endif // TOOLS_ASC_LIN_EXPORTER_H
