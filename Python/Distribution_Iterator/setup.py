@@ -1,8 +1,9 @@
 import platform
+
 import setuptools
 from setuptools.dist import Distribution
 
-with open("README.md", "r") as fh:
+with open("README.md") as fh:
     long_description = fh.read()
 
 data_files = []
@@ -18,6 +19,7 @@ else:
 # The solution from https://stackoverflow.com/a/45150383 is another possible path.
 class BinaryDistribution(Distribution):
     """Distribution which always forces a binary package with platform name"""
+
     def has_ext_modules(foo):
         return True
 
@@ -39,15 +41,12 @@ setuptools.setup(
         "Environment :: Console",
         "Operating System :: Microsoft :: Windows",
         "Operating System :: POSIX :: Linux",
-        "Programming Language :: C++"
-        "Programming Language :: Python :: 3.4",
+        "Programming Language :: C++Programming Language :: Python :: 3.4",
         "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
     ],
-    python_requires='>=3.4',
-    package_data={
-        "mdf_iter": data_files
-    },
+    python_requires=">=3.4",
+    package_data={"mdf_iter": data_files},
 )

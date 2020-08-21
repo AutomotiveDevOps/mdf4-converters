@@ -45,7 +45,7 @@ The project uses CMake for configuration. All the project files are supposed to 
 main configuration will fetch and build the dependencies under the `External` folder.
 
 If publishing any of the build artifacts, remember to change the "Company Name" in `Tools/CMakeLists.txt`, since the
-information is embedded in the executable targets. 
+information is embedded in the executable targets.
 
 For building under Windows using MinGW-64, Clang has to be configured as the compiler ([details](https://sourceforge.net/p/mingw-w64/bugs/727/))
 

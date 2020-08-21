@@ -1,10 +1,33 @@
 repos:
-  - repo: https://github.com/cheshirekow/cmake-format-precommit
-    rev: v0.6.10
-    hooks:
-    - id: cmake-format
-#    - id: cmake-lint
-  - repo: git://github.com/doublify/pre-commit-clang-format
+- repo: https://github.com/cheshirekow/cmake-format-precommit
+  rev: v0.6.10
+  hooks:
+  - id: cmake-format
+- repo: git://github.com/doublify/pre-commit-clang-format
+  rev: master
+  hooks:
+  - id: clang-format
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: master
+  hooks:
+  - id: trailing-whitespace
+  - id: check-yaml
+  - id: check-xml
+  - id: check-json
+  - id: sort-simple-yaml
+  - id: end-of-file-fixer
+- repo: https://github.com/asottile/pyupgrade
+  rev: master
+  hooks:
+  - id: pyupgrade
+    args: [--py37-plus]
+-   repo: https://github.com/psf/black
     rev: master
     hooks:
-    - id: clang-format
+    -   id: black
+        args: [--target-version=py37]
+-   repo: https://github.com/asottile/reorder_python_imports
+    rev: master
+    hooks:
+    -   id: reorder-python-imports
+        args: [--py37-plus]

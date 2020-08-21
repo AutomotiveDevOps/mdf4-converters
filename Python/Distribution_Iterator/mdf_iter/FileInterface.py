@@ -2,12 +2,11 @@ from mdf_iter.IFileInterface import IFileInterface
 
 
 class FileInterface(IFileInterface):
-    """Implementation of the IFileInterface for use with file-like objects.
-    
-    """
+    """Implementation of the IFileInterface for use with file-like objects."""
+
     def __init__(self, fl):
         """Setup the interface with a file-like object.
-        
+
         :param fl: File-like object. Assumed to be open and valid.
         """
         super(IFileInterface, self).__init__()
@@ -15,7 +14,7 @@ class FileInterface(IFileInterface):
 
     def read(self, buffer, number_of_bytes):
         res = self._handle.read(number_of_bytes)
-        buffer[:len(res)] = res
+        buffer[: len(res)] = res
 
         return len(res)
 
@@ -23,5 +22,5 @@ class FileInterface(IFileInterface):
         abs_pos = self._handle.seek(offset, direction)
 
         return abs_pos
-    
+
     pass

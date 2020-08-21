@@ -9,7 +9,7 @@ class Tool(Enum):
     PCAP = "mdf2pcap"
     PEAK = "mdf2peak"
     SocketCAN = "mdf2socketcan"
-    
+
     def __str__(self):
         return self.name
 
